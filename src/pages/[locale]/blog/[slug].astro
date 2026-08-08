@@ -1,0 +1,74 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import { LOCALES, formatDate, pairTranslation, t, type BlogEntry, type Locale } from '../../../lib/i18n';
+import { hasTechIcon } from '../../../lib/techIcons';
+import TechIcon from '../../../components/TechIcon.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return LOCALES.flatMap((locale) =>
+    posts
+      .filter((p) => p.data.lang === locale && !p.data.draft)
+      .map((p) => ({ params: { locale, slug: p.data.slug }, props: { entry: p } })),
+  );
+}
+
+const { entry } = Astro.props as { entry: BlogEntry };
+const { locale } = Astro.params as { locale: Locale };
+const { data } = entry;
+
+const allPosts = await getCollection('blog');
+const translation = pairTranslation(allPosts, entry);
+
+const { Content } = await render(entry);
+
+const path = `/${locale}/blog/${data.slug}`;
+const readingTime = Math.max(1, Math.ceil((entry.body ?? '').length / 1800));
+---
+
+<BaseLayout
+  title={data.title}
+  description={data.description}
+  locale={locale}
+  path={path}
+>
+  <nav class="font-mono text-xs text-ink-faint mb-8">
+    <a href={`/${locale}/blog`} class="no-underline hover:text-accent">← {t(locale, 'nav.blog')}</a>
+  </nav>
+
+  <header class="mb-8">
+    <div class="flex flex-wrap items-center gap-3 font-mono text-[11px] uppercase tracking-widest text-ink-faint mb-3">
+      <time datetime={data.date.toISOString()}>{formatDate(locale, data.date)}</time>
+      <span aria-hidden="true">·</span>
+      <span>{readingTime} {t(locale, 'blog.reading')}</span>
+    </div>
+    <h1 class="text-4xl sm:text-5xl font-bold tracking-tight mb-5">{data.title}</h1>
+    <p class="text-ink-dim text-xl leading-relaxed">{data.description}</p>
+    {data.tags.length > 0 && (
+      <div class="flex flex-wrap gap-1.5 mt-5">
+        {data.tags.map((tag) => (
+          <span class="inline-flex items-center gap-1 font-mono text-[11px] text-ink-dim bg-surface-2 border border-line rounded px-1.5 py-0.5">
+            {hasTechIcon(tag) ? <TechIcon tag={tag} size={14} /> : '#'}
+            {tag}
+          </span>
+        ))}
+      </div>
+    )}
+  </header>
+
+  <article class="prose-dark max-w-none">
+    <Content />
+  </article>
+
+  <footer class="mt-12 border-t border-line pt-6 font-mono text-xs text-ink-faint">
+    {translation ? (
+      <a
+        href={`/${translation.data.lang}/blog/${translation.data.slug}`}
+        class="no-underline hover:text-accent"
+      >
+        {translation.data.lang === 'el' ? 'Διαβάστε στα ελληνικά' : 'Read in English'} →
+      </a>
+    ) : null}
+  </footer>
+</BaseLayout>

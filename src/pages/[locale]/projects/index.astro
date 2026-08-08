@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ProjectCard from '../../../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+import { LOCALES, categoryLabel, t, type Locale } from '../../../lib/i18n';
+
+export function getStaticPaths() {
+  return LOCALES.map((locale) => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params as { locale: Locale };
+const path = `/${locale}/projects`;
+
+const categories = ['fullstack', 'ml', 'compilers', 'systems', 'extensions', 'devops'] as const;
+
+const projects = (await getCollection('projects'))
+  .filter((p) => p.data.lang === locale)
+  .sort((a, b) => b.data.featured === a.data.featured ? b.data.year - a.data.year : (b.data.featured ? 1 : -1));
+
+const byCategory = categories.map((category) => ({
+  category,
+  entries: projects.filter((p) => p.data.category === category),
+}));
+---
+
+<BaseLayout
+  title={t(locale, 'projects.title')}
+  description={t(locale, 'projects.subtitle')}
+  locale={locale}
+  path={path}
+>
+  <h1 class="text-4xl font-bold tracking-tight mb-3">{t(locale, 'projects.title')}</h1>
+  <p class="text-lg text-ink-dim mb-10">{t(locale, 'projects.subtitle')}</p>
+
+  <nav class="flex flex-wrap gap-2 mb-10 font-mono text-xs">
+    {byCategory.filter((g) => g.entries.length > 0).map((g) => (
+      <a href={`#${g.category}`} class="no-underline text-ink-dim hover:text-accent border border-line rounded px-2.5 py-1.5">
+        {categoryLabel(locale, g.category)}
+      </a>
+    ))}
+  </nav>
+
+  {byCategory.filter((g) => g.entries.length > 0).map((group) => (
+    <section class="mb-14" id={group.category}>
+      <h2 class="text-xl font-semibold tracking-tight mb-4 border-b border-line pb-2">
+        {categoryLabel(locale, group.category)}
+      </h2>
+      <div class="grid gap-4 sm:grid-cols-2">
+        {group.entries.map((entry) => (
+          <ProjectCard entry={entry} locale={locale} featured={entry.data.featured} />
+        ))}
+      </div>
+    </section>
+  ))}
+</BaseLayout>

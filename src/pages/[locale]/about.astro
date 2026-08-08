@@ -1,0 +1,96 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { LOCALES, t, type Locale } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return LOCALES.map((locale) => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params as { locale: Locale };
+const path = `/${locale}/about`;
+---
+
+<BaseLayout
+  title={t(locale, 'about.title')}
+  description={locale === 'en' ? 'About Konstantinos Xafis.' : 'Σχετικά με τον Κωνσταντίνο Χαφή.'}
+  locale={locale}
+  path={path}
+>
+  <h1 class="text-4xl font-bold tracking-tight mb-8">{t(locale, 'about.title')}</h1>
+
+  {
+    locale === 'en' ? (
+      <div class="prose-dark max-w-none">
+        <p>
+          I am a software engineer based in Greece, with a background from the Department of
+          Informatics and Telematics at Harokopio University of Athens. My work spans the full
+          stack, with a focus on production TypeScript applications deployed on the Cloudflare
+          edge.
+        </p>
+        <p>
+          My thesis, <strong>Local Area Modeling for FireCastNet</strong>, developed regional
+          graph-based models for wildfire forecasting; the work lives in the{' '}
+          <a href="https://github.com/d-michail/firecastnet/tree/lam" target="_blank" rel="noopener noreferrer">lam</a>{' '}
+          and{' '}
+          <a href="https://github.com/d-michail/firecastnet/tree/lam-visual" target="_blank" rel="noopener noreferrer">lam-visual</a>{' '}
+          branches of the FireCastNet project.
+        </p>
+        <p>
+          I also design and ship software for Byzantine music: <strong>Isokratis</strong>, a
+          freemium practice drone PWA for chanters, and the platform for a Byzantine music school
+          — including a family of microservices for PDF generation, image compression and
+          automated mailings.
+        </p>
+        <p>
+          Beyond web engineering, I am drawn to the fundamentals: I have written a full compiler
+          for the Alan language that emits JVM bytecode directly, and a parallel C engine that
+          computed one billion digits of Euler's constant on a laptop.
+        </p>
+      </div>
+    ) : (
+      <div class="prose-dark max-w-none">
+        <p>
+          Είμαι μηχανικός λογισμικού από την Ελλάδα, απόφοιτος του Τμήματος Πληροφορικής και
+          Τηλεματικής του Χαροκόπειου Πανεπιστημίου. Η δουλειά μου καλύπτει ολόκληρο το stack,
+          με έμφαση σε εφαρμογές TypeScript σε παραγωγή που τρέχουν στο Cloudflare edge.
+        </p>
+        <p>
+          Η διπλωματική μου εργασία, <strong>Local Area Modeling for FireCastNet</strong>,
+          ανέπτυξε γραφικά μοντέλα τοπικής κλίμακας για την πρόβλεψη δασικών πυρκαγιών· η
+          υλοποίηση βρίσκεται στους κλάδους{' '}
+          <a href="https://github.com/d-michail/firecastnet/tree/lam" target="_blank" rel="noopener noreferrer">lam</a>{' '}
+          και{' '}
+          <a href="https://github.com/d-michail/firecastnet/tree/lam-visual" target="_blank" rel="noopener noreferrer">lam-visual</a>{' '}
+          του έργου FireCastNet.
+        </p>
+        <p>
+          Επιπλέον, σχεδιάζω και υλοποιώ λογισμικό για τη βυζαντινή μουσική: το{' '}
+          <strong>Isokratis</strong>, μια freemium PWA ισοκρατημάτων για ψάλτες, και την
+          πλατφόρμα μιας σχολής βυζαντινής μουσικής — μαζί με μικροϋπηρεσίες για παραγωγή PDF,
+          συμπίεση εικόνων και αυτοματοποιημένες αποστολές email.
+        </p>
+        <p>
+          Πέρα από το web, με ενδιαφέρουν τα θεμέλια: έχω γράψει πλήρη compiler για τη γλώσσα
+          Alan που παράγει απευθείας JVM bytecode, και μια παράλληλη μηχανή σε C που υπολόγισε
+          ένα δισεκατομμύριο ψηφία της σταθεράς Euler σε φορητό υπολογιστή.
+        </p>
+      </div>
+    )
+  }
+
+  <section class="mt-12 border-t border-line pt-8">
+    <h2 class="text-lg font-semibold tracking-tight mb-4">
+      {locale === 'en' ? 'Areas of work' : 'Αντικείμενα εργασίας'}
+    </h2>
+    <ul class="grid gap-x-8 gap-y-2 sm:grid-cols-2 font-mono text-sm text-ink-dim">
+      <li>TypeScript / Astro / Cloudflare Workers</li>
+      <li>D1 · KV · R2 · Pages</li>
+      <li>Machine learning · PyTorch · DGL</li>
+      <li>Compilers · JVM bytecode</li>
+      <li>C · GMP · parallel computing</li>
+      <li>Web Audio · PWA</li>
+      <li>React · SolidJS islands</li>
+      <li>Bun · Docker · Ansible</li>
+    </ul>
+  </section>
+</BaseLayout>

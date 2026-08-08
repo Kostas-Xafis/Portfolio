@@ -1,0 +1,32 @@
+---
+import { t, type Locale } from '../lib/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-line">
+  <div class="w-full max-w-3xl mx-auto px-5 sm:px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-base text-ink-faint">
+    <p>© {year} {t(locale, 'name')}. {t(locale, 'footer.rights')}</p>
+    <div class="flex items-center gap-4">
+      <a
+        href="https://github.com/Kostas-Xafis"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="no-underline hover:text-ink"
+      >
+        GitHub
+      </a>
+      <a
+        href="mailto:koxafis@gmail.com"
+        class="no-underline hover:text-ink"
+      >
+        koxafis@gmail.com
+      </a>
+    </div>
+  </div>
+</footer>

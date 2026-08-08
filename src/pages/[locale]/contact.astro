@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { LOCALES, t, type Locale } from '../../lib/i18n';
+
+export function getStaticPaths() {
+  return LOCALES.map((locale) => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params as { locale: Locale };
+const path = `/${locale}/contact`;
+---
+
+<BaseLayout
+  title={t(locale, 'contact.title')}
+  description={locale === 'en' ? 'Contact Konstantinos Xafis.' : 'Επικοινωνία με τον Κωνσταντίνο Χαφή.'}
+  locale={locale}
+  path={path}
+>
+  <h1 class="text-4xl font-bold tracking-tight mb-8">{t(locale, 'contact.title')}</h1>
+  <p class="text-ink-dim leading-relaxed mb-10 max-w-2xl">
+    {
+      locale === 'en'
+        ? 'If you would like to discuss a project, collaboration or an opportunity, I can be reached directly by email.'
+        : 'Για συνεργασία, έργο ή ευκαιρία, μπορείτε να επικοινωνήσετε μαζί μου απευθείας μέσω email.'
+    }
+  </p>
+
+  <div class="border border-line bg-surface rounded-lg divide-y divide-line">
+    <div class="flex items-center justify-between p-5">
+      <span class="font-mono text-xs uppercase tracking-widest text-ink-faint">Email</span>
+      <a href="mailto:koxafis@gmail.com" class="no-underline text-ink hover:text-accent-strong">
+        koxafis@gmail.com
+      </a>
+    </div>
+    <div class="flex items-center justify-between p-5">
+      <span class="font-mono text-xs uppercase tracking-widest text-ink-faint">GitHub</span>
+      <a href="https://github.com/Kostas-Xafis" target="_blank" rel="noopener noreferrer" class="no-underline text-ink hover:text-accent-strong">
+        github.com/Kostas-Xafis ↗
+      </a>
+    </div>
+    <div class="flex items-center justify-between p-5">
+      <span class="font-mono text-xs uppercase tracking-widest text-ink-faint">
+        {locale === 'en' ? 'Location' : 'Τοποθεσία'}
+      </span>
+      <span class="text-ink-dim">{locale === 'en' ? 'Attica, Greece' : 'Αττική, Ελλάδα'}</span>
+    </div>
+  </div>
+</BaseLayout>

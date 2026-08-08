@@ -1,0 +1,115 @@
+@import "tailwindcss";
+@plugin '@tailwindcss/typography';
+
+@theme {
+  --color-bg: #0b0b0c;
+  --color-surface: #131315;
+  --color-surface-2: #1a1a1d;
+  --color-line: #26262a;
+  --color-line-strong: #34343a;
+  --color-ink: #e8e6e1;
+  --color-ink-dim: #9b9aa2;
+  --color-ink-faint: #6d6c74;
+  --color-accent: #d2a24f;
+  --color-accent-strong: #e3b96e;
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono:
+    ui-monospace, "Cascadia Code", "JetBrains Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+}
+
+html {
+  color-scheme: dark;
+  font-size: 24px;
+}
+
+body {
+  @apply bg-bg text-ink font-sans antialiased;
+}
+
+::selection {
+  @apply bg-accent/30 text-ink;
+}
+
+a {
+  @apply text-accent hover:text-accent-strong transition-colors duration-150;
+}
+
+.prose-dark {
+  @apply text-ink-dim;
+}
+
+.prose-dark h1,
+.prose-dark h2,
+.prose-dark h3,
+.prose-dark h4 {
+  @apply text-ink font-semibold tracking-tight;
+}
+
+.prose-dark h2 {
+  @apply mt-10 mb-4 text-2xl;
+}
+
+.prose-dark h3 {
+  @apply mt-8 mb-3 text-xl;
+}
+
+.prose-dark p {
+  @apply my-4 leading-relaxed text-[1.02rem];
+}
+
+.prose-dark ul {
+  @apply my-4 pl-5 list-disc space-y-1.5;
+}
+
+.prose-dark ol {
+  @apply my-4 pl-5 list-decimal space-y-1.5;
+}
+
+.prose-dark strong {
+  @apply text-ink font-semibold;
+}
+
+.prose-dark a {
+  @apply text-accent underline decoration-accent/40 underline-offset-2 hover:decoration-accent-strong hover:text-accent-strong;
+}
+
+.prose-dark code {
+  @apply font-mono text-[0.875em] bg-surface-2 border border-line px-1.5 py-0.5 rounded text-accent-strong;
+}
+
+.prose-dark pre {
+  @apply my-6 p-4 rounded-lg bg-surface border border-line overflow-x-auto text-sm leading-relaxed;
+}
+
+.prose-dark pre code {
+  @apply bg-transparent border-0 p-0 text-ink-dim;
+}
+
+.prose-dark blockquote {
+  @apply my-6 pl-4 border-l-2 border-accent/50 text-ink-dim italic;
+}
+
+.prose-dark hr {
+  @apply my-8 border-line;
+}
+
+.prose-dark table {
+  @apply my-6 w-full text-sm border-collapse;
+}
+
+.prose-dark th,
+.prose-dark td {
+  @apply border border-line px-3 py-2 text-left;
+}
+
+.prose-dark th {
+  @apply text-ink font-semibold bg-surface;
+}
+
+.prose-dark :not(pre) > code::before,
+.prose-dark :not(pre) > code::after {
+  content: "";
+}

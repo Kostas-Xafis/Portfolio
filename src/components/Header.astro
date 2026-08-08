@@ -1,0 +1,96 @@
+---
+import { t, switchLocalePath, type Locale } from '../lib/i18n';
+
+interface Props {
+  locale: Locale;
+  path: string;
+}
+
+const { locale, path } = Astro.props;
+const is404 = path === '/404';
+const nav = [
+  { href: `/${locale}/projects`, label: t(locale, 'nav.projects') },
+  { href: `/${locale}/blog`, label: t(locale, 'nav.blog') },
+  { href: `/${locale}/about`, label: t(locale, 'nav.about') },
+  { href: `/${locale}/contact`, label: t(locale, 'nav.contact') },
+];
+const alternateLocale: Locale = locale === 'en' ? 'el' : 'en';
+const alternateHref = switchLocalePath(path, alternateLocale);
+---
+
+<header class="sticky top-0 z-40 border-b border-line bg-bg/90 backdrop-blur">
+  <div class="w-full max-w-5xl mx-auto px-5 sm:px-8 h-14 flex items-center justify-between gap-4">
+    <a href={`/${locale}`} class="flex items-center gap-2.5 text-ink no-underline hover:text-accent-strong transition-colors">
+      <span class="w-7 h-7 rounded bg-accent text-bg font-mono font-bold text-sm flex items-center justify-center">KX</span>
+      <span class="font-mono text-base tracking-wide">{t(locale, 'name.logo')}</span>
+    </a>
+
+    <nav class="hidden sm:flex items-center gap-6 text-base">
+      {
+        nav.map((item) => (
+          <a
+            href={item.href}
+            class:list={[
+              'no-underline transition-colors',
+              path.startsWith(item.href)
+                ? 'text-ink'
+                : 'text-ink-dim hover:text-ink',
+            ]}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      {!is404 && (
+        <a
+          href={alternateHref}
+          class="font-mono text-sm uppercase tracking-widest border border-line-strong rounded px-2 py-1 text-ink-dim hover:text-accent hover:border-accent/50 no-underline transition-colors"
+        >
+          {t(locale, 'switch-locale')}
+        </a>
+      )}
+    </nav>
+
+    <button
+      id="nav-toggle"
+      class="sm:hidden flex flex-col justify-center items-center w-9 h-9 gap-1.5 text-ink-dim"
+      aria-label="Menu"
+      aria-expanded="false"
+    >
+      <span class="block w-5 h-px bg-current"></span>
+      <span class="block w-5 h-px bg-current"></span>
+      <span class="block w-5 h-px bg-current"></span>
+    </button>
+  </div>
+
+  <div id="nav-mobile" class="hidden sm:hidden border-t border-line">
+    <nav class="w-full max-w-3xl mx-auto px-5 py-4 flex flex-col gap-1 text-sm">
+      {
+        nav.map((item) => (
+          <a href={item.href} class="py-2 text-ink-dim hover:text-ink no-underline">
+            {item.label}
+          </a>
+        ))
+      }
+      {!is404 && (
+        <a
+          href={alternateHref}
+          class="py-2 font-mono text-xs uppercase tracking-widest text-ink-dim hover:text-accent no-underline"
+        >
+          {t(locale, 'switch-locale')}
+        </a>
+      )}
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById('nav-toggle');
+  const menu = document.getElementById('nav-mobile');
+  if (toggle && menu) {
+    toggle.addEventListener('click', () => {
+      const open = menu.classList.toggle('hidden');
+      toggle.setAttribute('aria-expanded', String(!open));
+    });
+  }
+</script>

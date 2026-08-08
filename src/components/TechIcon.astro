@@ -1,0 +1,25 @@
+---
+import { PATHS, normalizeTag } from '../lib/techIcons';
+
+interface Props {
+  tag: string;
+  size?: number;
+}
+
+const { tag, size = 14 } = Astro.props;
+const icon = PATHS[normalizeTag(tag)];
+---
+
+{icon && (
+  <svg
+    viewBox={icon.viewBox ?? '0 0 24 24'}
+    width={size}
+    height={size}
+    class="shrink-0 text-accent"
+    aria-hidden="true"
+  >
+    {icon.paths.map((p) => (
+      <path d={p.d} fill={p.fill ?? 'currentColor'} />
+    ))}
+  </svg>
+)}
