@@ -33,6 +33,13 @@ const readingTime = Math.max(1, Math.ceil((entry.body ?? '').length / 1800));
   locale={locale}
   path={path}
 >
+  <div
+    id="reading-progress"
+    aria-hidden="true"
+    class="fixed inset-x-0 top-0 z-50 h-0.5 bg-accent/80 origin-left"
+    style="transform: scaleX(0)"
+  ></div>
+
   <nav class="font-mono text-xs text-ink-faint mb-8">
     <a href={`/${locale}/blog`} class="no-underline hover:text-accent">← {t(locale, 'nav.blog')}</a>
   </nav>
@@ -72,3 +79,17 @@ const readingTime = Math.max(1, Math.ceil((entry.body ?? '').length / 1800));
     ) : null}
   </footer>
 </BaseLayout>
+
+<script>
+  function updateProgress() {
+    const bar = document.getElementById('reading-progress');
+    if (!bar) return;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const ratio = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    bar.style.transform = `scaleX(${ratio})`;
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  window.addEventListener('resize', updateProgress);
+  document.addEventListener('astro:page-load', updateProgress);
+  updateProgress();
+</script>
