@@ -37,6 +37,10 @@ a {
   @apply text-accent hover:text-accent-strong transition-colors duration-150;
 }
 
+.nav-active {
+  color: var(--color-ink);
+}
+
 .prose-dark {
   @apply text-ink-dim;
 }

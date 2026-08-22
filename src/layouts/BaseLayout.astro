@@ -1,6 +1,7 @@
 ---
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import { ClientRouter } from 'astro:transitions';
 import { SITE } from '../lib/site';
 import { t, type Locale } from '../lib/i18n';
 import '../styles/global.css';
@@ -58,8 +59,10 @@ const alternatePath = path.replace(/^\/(en|el)/, `/${alternateLocale}`);
       )
     }
     <meta name="generator" content={Astro.generator} />
+    <script is:inline>document.documentElement.classList.add('js');</script>
+    <ClientRouter />
   </head>
-  <body class="min-h-screen flex flex-col bg-bg">
+  <body data-path={path} class="min-h-screen flex flex-col bg-bg">
     <Header locale={locale} path={path} />
     <main class="flex-1 w-full max-w-5xl mx-auto px-5 sm:px-8 py-12 sm:py-16">
       <slot />

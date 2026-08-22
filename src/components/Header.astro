@@ -8,53 +8,67 @@ interface Props {
 
 const { locale, path } = Astro.props;
 const is404 = path === '/404';
-const nav = [
-  { href: `/${locale}/projects`, label: t(locale, 'nav.projects') },
-  { href: `/${locale}/blog`, label: t(locale, 'nav.blog') },
-  { href: `/${locale}/about`, label: t(locale, 'nav.about') },
-  { href: `/${locale}/contact`, label: t(locale, 'nav.contact') },
-];
+const navKeys = ['projects', 'blog', 'about', 'contact'] as const;
+const navItems = navKeys.map((key) => ({
+  key,
+  href: `/${locale}/${key}`,
+  label: t(locale, `nav.${key}`),
+}));
 const alternateLocale: Locale = locale === 'en' ? 'el' : 'en';
 const alternateHref = switchLocalePath(path, alternateLocale);
 ---
 
-<header class="sticky top-0 z-40 border-b border-line bg-bg/90 backdrop-blur">
+<header transition:persist="site-header" class="sticky top-0 z-40 border-b border-line bg-bg/90 backdrop-blur">
   <div class="w-full max-w-5xl mx-auto px-5 sm:px-8 h-14 flex items-center justify-between gap-4">
-    <a href={`/${locale}`} class="flex items-center gap-2.5 text-ink no-underline hover:text-accent-strong transition-colors">
+    <a
+      href={`/${locale}`}
+      data-logo
+      data-label-en={t('en', 'name.logo')}
+      data-label-el={t('el', 'name.logo')}
+      class="flex items-center gap-2.5 text-ink no-underline hover:text-accent-strong transition-colors"
+    >
       <span class="w-7 h-7 rounded bg-accent text-bg font-mono font-bold text-sm flex items-center justify-center">KX</span>
       <span class="font-mono text-base tracking-wide">{t(locale, 'name.logo')}</span>
     </a>
 
     <nav class="hidden sm:flex items-center gap-6 text-base">
       {
-        nav.map((item) => (
+        navItems.map((item) => (
           <a
             href={item.href}
+            data-nav-link
+            data-nav-href={`/${item.key}`}
+            data-label-en={t('en', `nav.${item.key}`)}
+            data-label-el={t('el', `nav.${item.key}`)}
+            aria-current={path.startsWith(item.href) ? 'page' : undefined}
             class:list={[
-              'no-underline transition-colors',
-              path.startsWith(item.href)
-                ? 'text-ink'
-                : 'text-ink-dim hover:text-ink',
+              'no-underline transition-colors text-ink-dim hover:text-ink',
+              path.startsWith(item.href) && 'nav-active',
             ]}
           >
             {item.label}
           </a>
         ))
       }
-      {!is404 && (
-        <a
-          href={alternateHref}
-          class="font-mono text-sm uppercase tracking-widest border border-line-strong rounded px-2 py-1 text-ink-dim hover:text-accent hover:border-accent/50 no-underline transition-colors"
-        >
-          {t(locale, 'switch-locale')}
-        </a>
-      )}
+      <a
+        href={alternateHref}
+        data-switch
+        data-label-en={t('en', 'switch-locale')}
+        data-label-el={t('el', 'switch-locale')}
+        class:list={[
+          'font-mono text-sm uppercase tracking-widest border border-line-strong rounded px-2 py-1 text-ink-dim hover:text-accent hover:border-accent/50 no-underline transition-colors',
+          is404 && 'hidden',
+        ]}
+      >
+        {t(locale, 'switch-locale')}
+      </a>
     </nav>
 
     <button
       id="nav-toggle"
+      type="button"
       class="sm:hidden flex flex-col justify-center items-center w-9 h-9 gap-1.5 text-ink-dim"
-      aria-label="Menu"
+      aria-label={t(locale, 'nav.menu')}
       aria-expanded="false"
     >
       <span class="block w-5 h-px bg-current"></span>
@@ -66,25 +80,83 @@ const alternateHref = switchLocalePath(path, alternateLocale);
   <div id="nav-mobile" class="hidden sm:hidden border-t border-line">
     <nav class="w-full max-w-3xl mx-auto px-5 py-4 flex flex-col gap-1 text-sm">
       {
-        nav.map((item) => (
-          <a href={item.href} class="py-2 text-ink-dim hover:text-ink no-underline">
+        navItems.map((item) => (
+          <a
+            href={item.href}
+            data-nav-link
+            data-nav-href={`/${item.key}`}
+            data-label-en={t('en', `nav.${item.key}`)}
+            data-label-el={t('el', `nav.${item.key}`)}
+            aria-current={path.startsWith(item.href) ? 'page' : undefined}
+            class:list={[
+              'py-2 text-ink-dim hover:text-ink no-underline',
+              path.startsWith(item.href) && 'nav-active',
+            ]}
+          >
             {item.label}
           </a>
         ))
       }
-      {!is404 && (
-        <a
-          href={alternateHref}
-          class="py-2 font-mono text-xs uppercase tracking-widest text-ink-dim hover:text-accent no-underline"
-        >
-          {t(locale, 'switch-locale')}
-        </a>
-      )}
+      <a
+        href={alternateHref}
+        data-switch
+        data-label-en={t('en', 'switch-locale')}
+        data-label-el={t('el', 'switch-locale')}
+        class:list={[
+          'py-2 font-mono text-xs uppercase tracking-widest text-ink-dim hover:text-accent no-underline',
+          is404 && 'hidden',
+        ]}
+      >
+        {t(locale, 'switch-locale')}
+      </a>
     </nav>
   </div>
 </header>
 
 <script>
+  function switchPath(pathname: string, to: string): string {
+    for (const l of ['en', 'el']) {
+      if (pathname === `/${l}`) return `/${to}`;
+      if (pathname.startsWith(`/${l}/`)) return `/${to}${pathname.slice(3)}`;
+    }
+    return `/${to}${pathname}`;
+  }
+
+  function updateHeader() {
+    const pagePath = document.body.dataset.path ?? location.pathname;
+    const lang: 'en' | 'el' = pagePath.startsWith('/el') ? 'el' : 'en';
+    const is404 = pagePath === '/404';
+
+    const logo = document.querySelector<HTMLAnchorElement>('[data-logo]');
+    if (logo) {
+      logo.href = `/${lang}`;
+      const label = logo.lastElementChild;
+      if (label) label.textContent = logo.dataset[lang === 'en' ? 'labelEn' : 'labelEl'] ?? '';
+    }
+
+    document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]').forEach((link) => {
+      const href = `/${lang}${link.dataset.navHref}`;
+      link.href = href;
+      link.textContent = link.dataset[lang === 'en' ? 'labelEn' : 'labelEl'] ?? '';
+      const active = pagePath.startsWith(href);
+      link.classList.toggle('nav-active', active);
+      if (active) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    });
+
+    const otherLang = lang === 'en' ? 'el' : 'en';
+    document.querySelectorAll<HTMLAnchorElement>('[data-switch]').forEach((link) => {
+      link.href = switchPath(pagePath, otherLang);
+      link.textContent = link.dataset[lang === 'en' ? 'labelEn' : 'labelEl'] ?? '';
+      link.classList.toggle('hidden', is404);
+    });
+
+    const menu = document.getElementById('nav-mobile');
+    const toggle = document.getElementById('nav-toggle');
+    if (menu) menu.classList.add('hidden');
+    if (toggle) toggle.setAttribute('aria-expanded', 'false');
+  }
+
   const toggle = document.getElementById('nav-toggle');
   const menu = document.getElementById('nav-mobile');
   if (toggle && menu) {
@@ -93,4 +165,7 @@ const alternateHref = switchLocalePath(path, alternateLocale);
       toggle.setAttribute('aria-expanded', String(!open));
     });
   }
+
+  document.addEventListener('astro:page-load', updateHeader);
+  updateHeader();
 </script>
