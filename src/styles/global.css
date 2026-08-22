@@ -54,6 +54,11 @@ body {
   @apply bg-accent/30 text-ink;
 }
 
+/* Search result highlights (Pagefind) */
+mark {
+  @apply bg-transparent text-accent-strong font-semibold;
+}
+
 :focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
@@ -167,6 +172,12 @@ a {
 
 .prose-dark h3 {
   @apply mt-8 mb-3 text-xl;
+}
+
+/* Anchor jumps (TOC, deep links) must clear the sticky header */
+.prose-dark h2[id],
+.prose-dark h3[id] {
+  scroll-margin-top: 5rem;
 }
 
 .prose-dark p {

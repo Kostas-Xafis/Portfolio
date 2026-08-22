@@ -1,6 +1,7 @@
 ---
 slug: datamining-bankruptcy
 lang: el
+cover: datamining-bankruptcy.webp
 title: Pipeline Πρόβλεψης Πτώχευσης
 summary: Αυστηρό pipeline scikit-learn για πρόβλεψη εταιρικής πτώχευσης — εξισορρόπηση SMOTE, αποκοπή συσχετίσεων, ιστογραμμική ενισχυμένη κλίση με grid search και ανάλυση permutation importance.
 category: ml

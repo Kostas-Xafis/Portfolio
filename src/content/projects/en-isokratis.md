@@ -1,6 +1,7 @@
 ---
 slug: isokratis
 lang: en
+cover: isokratis.webp
 title: Isokratis
 summary: A freemium PWA that generates the stable drone note (isokratima) Byzantine chanters practice against, built on a mathematically-defined moria-based music model and a Web Audio engine at the Cloudflare edge.
 category: fullstack
@@ -8,6 +9,7 @@ stack: [Astro 5, React 19, TypeScript, Tailwind CSS 4, Web Audio API, Zustand, C
 status: production
 year: 2026
 featured: true
+relatedPosts: [isokratis-web-audio-drone]
 links:
   repo: https://github.com/Kostas-Xafis/Isokratis
   live: https://isokratis.com

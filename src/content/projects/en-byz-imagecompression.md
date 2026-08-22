@@ -1,6 +1,7 @@
 ---
 slug: byz-imagecompression
 lang: en
+cover: byz-imagecompression.webp
 title: Byz-ImageCompression
 summary: A Bun + sharp microservice that compresses uploaded images to a fixed ~40 KB budget using metadata-driven dimension scaling.
 category: fullstack

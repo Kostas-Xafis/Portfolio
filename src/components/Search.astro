@@ -1,0 +1,235 @@
+---
+import { t, type Locale } from '../lib/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<div
+  id="search-overlay"
+  class="fixed inset-0 z-50 hidden"
+  role="dialog"
+  aria-modal="true"
+  aria-label={t(locale, 'search.title')}
+  data-search-root
+>
+  <div class="absolute inset-0 bg-bg/75 backdrop-blur-sm" data-search-close></div>
+  <div class="relative mx-auto mt-[14vh] w-full max-w-xl px-4">
+    <div class="border border-line-strong rounded-xl bg-surface shadow-2xl shadow-black/60 overflow-hidden">
+      <form class="flex items-center gap-3 px-4 border-b border-line" role="search">
+        <svg viewBox="0 0 512 512" width="16" height="16" fill="currentColor" class="shrink-0 text-ink-faint" aria-hidden="true">
+          <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0s208 93.1 208 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"></path>
+        </svg>
+        <input
+          id="search-input"
+          type="search"
+          placeholder={t(locale, 'search.placeholder')}
+          aria-label={t(locale, 'search.title')}
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+          class="w-full bg-transparent py-3.5 text-ink placeholder:text-ink-faint outline-none"
+        />
+        <button
+          type="button"
+          data-search-close
+          aria-label={t(locale, 'search.close')}
+          class="shrink-0 font-mono text-[10px] uppercase tracking-widest text-ink-faint hover:text-ink border border-line rounded px-1.5 py-1 transition-colors"
+        >
+          esc
+        </button>
+      </form>
+      <div id="search-results" class="max-h-[55vh] overflow-y-auto text-sm">
+        <p class="px-4 py-8 text-center font-mono text-xs text-ink-faint">{t(locale, 'search.placeholder')}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { navigate } from 'astro:transitions/client';
+  import { t } from '../lib/i18n';
+
+  interface PagefindApi {
+    init: () => Promise<void>;
+    search: (query: string) => Promise<{
+      results: Array<{ url: string; title: string; excerpt: string; sub_results?: unknown }>;
+    }>;
+  }
+
+  let pagefind: PagefindApi | null = null;
+
+  /** Pagefind stores the build path; normalize to the public extension-less URL. */
+  function normalizeUrl(url: string): string {
+    return url.replace(/\/index\.html$/, '/').replace(/\.html$/, '') || '/';
+  }
+
+  function overlay(): HTMLElement | null {
+    return document.getElementById('search-overlay');
+  }
+  function input(): HTMLInputElement | null {
+    return document.getElementById('search-input') as HTMLInputElement | null;
+  }
+  function results(): HTMLElement | null {
+    return document.getElementById('search-results');
+  }
+
+  function currentLocale(): 'en' | 'el' {
+    const path = document.body.dataset.path ?? location.pathname;
+    return path.startsWith('/el') ? 'el' : 'en';
+  }
+
+  function open() {
+    const root = overlay();
+    const field = input();
+    if (!root || !field) return;
+    root.classList.remove('hidden');
+    root.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    window.setTimeout(() => field.focus(), 0);
+  }
+
+  function close() {
+    const root = overlay();
+    const field = input();
+    const box = results();
+    if (!root) return;
+    root.classList.add('hidden');
+    root.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (field) field.value = '';
+    if (box) box.textContent = '';
+  }
+
+  type Pagefind = PagefindApi;
+
+  async function ensurePagefind(): Promise<Pagefind> {
+    if (!pagefind) {
+      const pagefindUrl = '/pagefind/pagefind.js';
+      const mod = await import(/* @vite-ignore */ pagefindUrl);
+      await mod.init();
+      pagefind = mod as Pagefind;
+    }
+    return pagefind;
+  }
+
+  function mark(text: string): string {
+    // Compatibility shim: pagefind >= 1.5 already emits real <mark> tags.
+    return text.replace(/{{#}}/g, '<mark>').replace(/{{\/}}/g, '</mark>');
+  }
+
+  function escapeHtml(text: string): string {
+    return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function renderItem(item: { url: string; title: string; excerpt: string }): string {
+    const lang = item.url.startsWith('/el') ? 'el' : 'en';
+    return `
+      <a href="${normalizeUrl(item.url)}" data-search-result class="block px-4 py-3 border-b border-line last:border-0 hover:bg-surface-2 transition-colors">
+        <span class="block text-sm font-semibold text-ink mb-0.5">${mark(item.title)}</span>
+        <span class="block font-mono text-[11px] text-ink-faint mb-1.5">
+          ${lang === 'el' ? 'Ελληνικά' : 'English'}
+        </span>
+        <span class="block text-sm text-ink-dim leading-relaxed">${mark(item.excerpt)}</span>
+      </a>`;
+  }
+
+  let debounceTimer = 0;
+
+  async function runSearch(query: string) {
+    const box = results();
+    if (!box) return;
+    const lang = currentLocale();
+    const prefix = lang === 'el' ? '/el' : '/en';
+
+    if (!query.trim()) {
+      box.innerHTML = `<p class="px-4 py-8 text-center font-mono text-xs text-ink-faint">${t(lang, 'search.placeholder')}</p>`;
+      return;
+    }
+
+    try {
+      const pf = await ensurePagefind();
+      const search = await pf.search(query);
+      const items = (search.results ?? []).filter((r) => !r.url.endsWith('.png') && !r.url.endsWith('.jpg'));
+      const inLocale = items.filter((r) => normalizeUrl(r.url).startsWith(prefix));
+      const others = items.filter((r) => !normalizeUrl(r.url).startsWith(prefix));
+
+      if (inLocale.length === 0 && others.length === 0) {
+        box.innerHTML = `<p class="px-4 py-8 text-center font-mono text-xs text-ink-faint">${t(lang, 'search.no-results')} “${escapeHtml(query)}”</p>`;
+        return;
+      }
+
+      const otherLang = lang === 'en' ? 'el' : 'en';
+      const toggleLabel = otherLang === 'el' ? 'Ελληνικά' : 'English';
+      const toggle = others.length > 0
+        ? `<p class="px-4 py-3 text-center font-mono text-xs text-ink-faint">— ${others.length} ${toggleLabel} —</p>`
+        : '';
+
+      box.innerHTML = inLocale.map(renderItem).join('') + toggle;
+    } catch {
+      box.innerHTML = `<p class="px-4 py-8 text-center font-mono text-xs text-ink-faint">${t(lang, 'search.no-results')} “${escapeHtml(query)}”</p>`;
+    }
+  }
+
+  function onKeyDown(event: KeyboardEvent) {
+    const target = event.target as HTMLElement | null;
+    const typing = !!target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA');
+
+    if ((event.key === '/' && !typing) || ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k')) {
+      event.preventDefault();
+      open();
+      return;
+    }
+    if (event.key === 'Escape') close();
+  }
+
+  function onClick(event: MouseEvent) {
+    const target = event.target as HTMLElement | null;
+    if (!target) return;
+
+    if (target.closest('[data-search-open]')) {
+      event.preventDefault();
+      open();
+      return;
+    }
+    if (target.closest('[data-search-close]')) {
+      close();
+      return;
+    }
+    const link = target.closest<HTMLAnchorElement>('[data-search-result]');
+    if (link) {
+      event.preventDefault();
+      close();
+      navigate(link.href);
+    }
+  }
+
+  // The inline module scripts re-execute on every view transition, while the
+  // document itself persists — bind document-level handlers exactly once.
+  const bound = document as Document & { __searchBound?: boolean };
+  if (!bound.__searchBound) {
+    bound.__searchBound = true;
+    document.addEventListener('click', onClick);
+    document.addEventListener('keydown', onKeyDown);
+  }
+
+  const field = document.getElementById('search-input') as HTMLInputElement | null;
+  if (field) {
+    field.addEventListener('input', () => {
+      window.clearTimeout(debounceTimer);
+      debounceTimer = window.setTimeout(() => runSearch(field.value), 140);
+    });
+    field.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter') return;
+      event.preventDefault();
+      const first = (results()?.querySelector<HTMLAnchorElement>('[data-search-result]'));
+      if (first) {
+        close();
+        navigate(first.href);
+      }
+    });
+  }
+</script>

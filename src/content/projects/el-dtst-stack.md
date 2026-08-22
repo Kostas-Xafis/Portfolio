@@ -1,6 +1,7 @@
 ---
 slug: dtst-stack
 lang: el
+cover: dtst-stack.webp
 title: DTST — Σύστημα Δηλώσεων
 summary: "Σύστημα δηλώσεων φόρου ακινήτων παραδοτέο από άκρη σε άκρη: Spring Boot API, React dashboard και DevOps pipeline με Docker, Ansible και Jenkins στο GCP."
 category: devops

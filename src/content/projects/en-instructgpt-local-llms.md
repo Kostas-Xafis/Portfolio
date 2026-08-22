@@ -1,6 +1,7 @@
 ---
 slug: instructgpt-local-llms
 lang: en
+cover: instructgpt-local-llms.webp
 title: Local LLM Experiments
 summary: Hands-on experiments with quantized open-source LLMs — Llama 3.2 and Aya via llama-cpp — covering prompt variety, sampling parameters and embedding similarity.
 category: ml

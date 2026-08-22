@@ -1,6 +1,7 @@
 ---
 slug: firecast-lam
 lang: en
+cover: firecast-lam.webp
 title: FireCastNet — Local Area Modeling
 summary: "My thesis: regional graph-based wildfire forecasting built on the FireCastNet GraphCast-style architecture, with per-region icosphere meshes and geospatially-aware losses. Merged upstream into the lam and lam-visual branches."
 category: ml

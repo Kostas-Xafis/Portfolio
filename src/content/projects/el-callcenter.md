@@ -1,6 +1,7 @@
 ---
 slug: callcenter
 lang: el
+cover: callcenter.webp
 title: Κατάλογος Τηλεφωνικού Κέντρου
 summary: Self-hosted κατάλογος ~1.000 εγγραφών σε Bun + SQLite με χειροποίητη μηχανή fuzzy αναζήτησης, υποστήριξη ελληνικού πληκτρολογίου και caching στο IndexedDB.
 category: fullstack

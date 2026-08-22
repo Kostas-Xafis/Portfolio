@@ -37,6 +37,8 @@ const projects = defineCollection({
     // Optional cover image: a filename inside src/assets/covers (e.g. "isokratis.webp").
     // When absent, cards and detail pages render a styled placeholder instead.
     cover: z.string().optional(),
+    // Slugs of related BLOG POSTS rendered as cross-links on project pages.
+    relatedPosts: z.array(z.string()).optional(),
     links: z
       .object({
         repo: z.string().url().optional(),
@@ -59,11 +61,16 @@ const blog = defineCollection({
     title: z.string(),
     description: z.string(),
     date: z.coerce.date(),
+    // Optional "last updated" date; when present it is used as dateModified
+    // in JSON-LD and the post meta instead of `date`.
+    updated: z.coerce.date().optional(),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
     // Optional cover image: a filename inside src/assets/covers (e.g. "drone-engine.webp").
     // When absent, cards and detail pages render a styled placeholder instead.
     cover: z.string().optional(),
+    // Slugs of related PROJECTS rendered as cross-links on blog post pages.
+    relatedProjects: z.array(z.string()).optional(),
   }),
 });
 

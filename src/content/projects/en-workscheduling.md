@@ -1,6 +1,7 @@
 ---
 slug: workscheduling
 lang: en
+cover: workscheduling.webp
 title: WorkScheduling
 summary: A constraint-aware monthly shift scheduler for a six-person team that balances fairness counters and exports a polished landscape A4 PDF roster.
 category: fullstack

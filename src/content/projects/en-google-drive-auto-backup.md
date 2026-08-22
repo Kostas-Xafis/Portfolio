@@ -1,6 +1,7 @@
 ---
 slug: google-drive-auto-backup
 lang: en
+cover: google-drive-auto-backup.webp
 title: Google Drive Auto Backup
 summary: An incremental backup CLI for Google Drive with glob exclusions, conflict-aware relocation detection and no re-uploading of unchanged files.
 category: extensions

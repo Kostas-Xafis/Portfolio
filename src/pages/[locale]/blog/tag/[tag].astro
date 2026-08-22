@@ -1,0 +1,58 @@
+---
+import { getCollection } from 'astro:content';
+import ArrowLeftIcon from '../../../../components/ArrowLeftIcon.astro';
+import PostCard from '../../../../components/PostCard.astro';
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import { LOCALES, slugifyTag, t, type Locale } from '../../../../lib/i18n';
+
+interface Props {
+  locale: Locale;
+  tag: string;
+}
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  const paths: Array<{ params: { locale: string; tag: string }; props: Props }> = [];
+  for (const locale of LOCALES) {
+    const tags = new Set(
+      posts
+        .filter((p) => p.data.lang === locale && !p.data.draft)
+        .flatMap((p) => p.data.tags),
+    );
+    for (const tag of tags) {
+      paths.push({ params: { locale, tag: slugifyTag(tag) }, props: { locale, tag } });
+    }
+  }
+  return paths;
+}
+
+const { locale, tag } = Astro.props as Props;
+const path = `/${locale}/blog/tag/${slugifyTag(tag)}`;
+
+const posts = (await getCollection('blog'))
+  .filter((p) => p.data.lang === locale && !p.data.draft && p.data.tags.includes(tag))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const title = `#${tag}`;
+const description = `${title} — ${t(locale, 'blog.subtitle')}`;
+---
+
+<BaseLayout title={title} description={description} locale={locale} path={path}>
+  <nav class="font-mono text-xs text-ink-faint mb-8">
+    <a href={`/${locale}/blog`} class="inline-flex items-center gap-1.5 no-underline hover:text-accent">
+      <ArrowLeftIcon size={12} />
+      {t(locale, 'nav.blog')}
+    </a>
+  </nav>
+
+  <header data-reveal class="mb-10">
+    <h1 class="text-4xl font-bold tracking-tight mb-3">{title}</h1>
+    <p class="text-lg text-ink-dim">
+      {posts.length} {posts.length === 1 ? t(locale, 'blog.posts.one') : t(locale, 'blog.posts.other')}
+    </p>
+  </header>
+
+  <div class="grid gap-4">
+    {posts.map((entry) => <PostCard entry={entry} locale={locale} />)}
+  </div>
+</BaseLayout>

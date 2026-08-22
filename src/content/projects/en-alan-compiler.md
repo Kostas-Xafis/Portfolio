@@ -1,6 +1,7 @@
 ---
 slug: alan-compiler
 lang: en
+cover: alan-compiler.webp
 title: Alan Compiler
 summary: A complete compiler for the Alan language — JFlex lexer, CUP LALR parser, typed AST with symbol tables, and direct JVM bytecode emission via ASM. A hard, technical project from start to finish.
 category: compilers
@@ -8,6 +9,7 @@ stack: [Java, JFlex, CUP, ASM, Maven]
 status: academic
 year: 2024
 featured: true
+relatedPosts: [alan-compiler-jvm-bytecode]
 links:
   repo: https://github.com/Kostas-Xafis/AlanCompiler
 ---

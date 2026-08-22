@@ -1,6 +1,7 @@
 ---
 slug: automated-mails-byz
 lang: en
+cover: automated-mails-byz.webp
 title: Automated-Mails-Byz
 summary: A transactional email service for the Byzantine music school — typed template-driven Greek mails through the MailerSend API, backed by a Turso database.
 category: fullstack

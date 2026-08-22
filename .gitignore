@@ -17,8 +17,13 @@ pnpm-debug.log*
 .env
 .env.production
 
+# local npm cache fallback
+.npm-cache/
+
 # macOS-specific files
 .DS_Store
 
 # jetbrains setting folder
 .idea/
+.dev.vars
+.wrangler/

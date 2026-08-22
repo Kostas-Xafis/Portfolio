@@ -1,6 +1,7 @@
 ---
 slug: byzantine-music-text-editor
 lang: el
+cover: byzantine-music-text-editor.webp
 title: Επεξεργαστής Κειμένου Βυζαντινής Μουσικής
 summary: Πρόσθετο Microsoft Word που μετατρέπει ένα οθονικό πληκτρολόγιο νεομάτων σε επεξεργαστή σημειογραφίας βυζαντινής μουσικής, εξάγοντας έγκυρο Word OOXML.
 category: fullstack

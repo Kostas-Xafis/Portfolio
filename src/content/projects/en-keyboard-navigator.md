@@ -1,6 +1,7 @@
 ---
 slug: keyboard-navigator
 lang: en
+cover: keyboard-navigator.webp
 title: KeyboardNavigator
 summary: A Manifest V3 browser extension for keyboard-first browsing — an activation shortcut tags every reachable element with a two-set combo for instant navigation.
 category: extensions

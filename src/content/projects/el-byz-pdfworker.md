@@ -1,6 +1,7 @@
 ---
 slug: byz-pdfworker
 lang: el
+cover: byz-pdfworker.webp
 title: Byz-PdfWorker
 summary: Μικροϋπηρεσία δημιουργίας PDF που συμπληρώνει τα επίσημα έντυπα εγγραφής της σχολής βυζαντινής μουσικής, ενσωματώνει custom γραμματοσειρές, συγχωνεύει παρτίδες και ελέγχει τους καλούντες.
 category: fullstack

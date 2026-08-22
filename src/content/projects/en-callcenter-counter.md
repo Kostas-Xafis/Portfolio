@@ -1,6 +1,7 @@
 ---
 slug: callcenter-counter
 lang: en
+cover: callcenter-counter.webp
 title: CallCenterCounter
 summary: A Cloudflare Workers + D1 app where call-center agents log their personal call counts, with charts, invite-only signup and a production call window.
 category: fullstack

@@ -7,8 +7,10 @@ HOW TO USE
 ----------
 1. Copy ONE "Prompt:" paragraph (it is fully self-contained) into your
    image generator of choice (Midjourney, DALL-E, Flux, Ideogram, ...).
-2. Generate at 16:9 (1200x675) or wider. Keep the main subject centered:
-   the detail pages crop the same image to a 2:1 banner.
+2. Generate at 16:9 — ideally 2560x1440 (or wider). The detail pages render
+   the banner ~960px wide; combined with retina displays and browser zoom the
+   safe floor is 1920x1080, and 1200x675 gets visibly soft. Keep the main
+   subject centered: the detail pages crop the same image to a 2:1 banner.
 3. Save the result as the suggested filename in src/assets/covers/
    (webp recommended, png/jpg also supported).
 4. Add the frontmatter line  cover: <filename>  to the matching content

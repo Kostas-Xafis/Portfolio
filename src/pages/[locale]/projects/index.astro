@@ -43,7 +43,7 @@ const byCategory = categories.map((category) => ({
   </nav>
 
   {byCategory.filter((g) => g.entries.length > 0).map((group) => (
-    <section class="mb-14" id={group.category} data-reveal>
+    <section class="mb-14 scroll-mt-24" id={group.category} data-reveal>
       <h2 class="text-xl font-semibold tracking-tight mb-4 border-b border-line pb-2">
         {categoryLabel(locale, group.category)}
       </h2>

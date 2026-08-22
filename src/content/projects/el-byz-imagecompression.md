@@ -1,6 +1,7 @@
 ---
 slug: byz-imagecompression
 lang: el
+cover: byz-imagecompression.webp
 title: Byz-ImageCompression
 summary: Μικροϋπηρεσία σε Bun + sharp που συμπιέζει ανεβασμένες εικόνες σε σταθερό προϋπολογισμό ~40 KB με κλιμάκωση βάσει μεταδεδομένων.
 category: fullstack

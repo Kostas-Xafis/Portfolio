@@ -1,6 +1,7 @@
 ---
 slug: byzantini-website
 lang: en
+cover: byzantini-website.webp
 title: Byzantine Music School Platform
 summary: A production full-stack platform for a Byzantine music school — public site, registrations, teacher and book management, payments, and an admin panel, on Cloudflare Pages with a typed Valibot API.
 category: fullstack

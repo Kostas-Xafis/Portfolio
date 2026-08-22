@@ -1,6 +1,7 @@
 ---
 slug: byzantine-music-text-editor
 lang: en
+cover: byzantine-music-text-editor.webp
 title: Byzantine Music Text Editor
 summary: A Microsoft Word add-in that turns an on-screen neume keyboard into a Byzantine music notation editor, exporting valid Word OOXML.
 category: fullstack

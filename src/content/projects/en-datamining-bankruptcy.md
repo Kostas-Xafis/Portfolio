@@ -1,6 +1,7 @@
 ---
 slug: datamining-bankruptcy
 lang: en
+cover: datamining-bankruptcy.webp
 title: Bankruptcy Prediction Pipeline
 summary: A rigorous scikit-learn pipeline for company bankruptcy prediction — SMOTE balancing, correlation pruning, histogram gradient boosting tuned by grid search, and permutation-importance analysis.
 category: ml

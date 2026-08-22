@@ -15,10 +15,21 @@ interface Props {
   iconTag?: string;
   /** Aspect ratio of the cover area */
   aspect?: 'video' | 'wide';
+  /** <img> sizes hint: how wide the image renders in the layout. Card grids
+   *  are ~480px per column; detail banners render ~960px. */
+  sizes?: string;
   class?: string;
 }
 
-const { cover, alt, label, iconTag, aspect = 'video', class: className } = Astro.props;
+const {
+  cover,
+  alt,
+  label,
+  iconTag,
+  aspect = 'video',
+  sizes = '(min-width: 1024px) 480px, 100vw',
+  class: className,
+} = Astro.props;
 
 const images = import.meta.glob<{ default: ImageMetadata }>(
   '../assets/covers/*.{png,jpg,jpeg,webp,avif}',
@@ -34,8 +45,8 @@ const aspectClass = aspect === 'wide' ? 'aspect-[2/1]' : 'aspect-video';
     <Image
       src={source}
       alt={alt}
-      widths={[480, 768, 1024, 1280]}
-      sizes="(min-width: 1024px) 640px, 100vw"
+      widths={[480, 768, 1024, 1440, 1920, 2560]}
+      sizes={sizes}
       class:list={['block w-full object-cover', aspectClass, className]}
     />
   ) : (

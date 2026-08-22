@@ -1,9 +1,10 @@
 ---
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import Search from '../components/Search.astro';
 import { ClientRouter } from 'astro:transitions';
 import { SITE } from '../lib/site';
-import { t, type Locale } from '../lib/i18n';
+import { switchLocalePath, t, type Locale } from '../lib/i18n';
 import '../styles/global.css';
 import '@fontsource-variable/ibm-plex-sans/wght.css';
 import '@fontsource-variable/ibm-plex-sans/wght-italic.css';
@@ -14,13 +15,21 @@ interface Props {
   description: string;
   locale: Locale;
   path: string;
+  /** OpenGraph type; 'article' for blog posts */
+  ogType?: 'website' | 'article';
+  /** ISO date for article:published_time */
+  articlePublished?: string;
+  /** ISO date for article:modified_time */
+  articleModified?: string;
 }
 
-const { title, description, locale, path } = Astro.props;
+const { title, description, locale, path, ogType = 'website', articlePublished, articleModified } = Astro.props;
 const siteTitle = t(locale, 'name');
 const fullTitle = title === siteTitle ? siteTitle : `${title} — ${siteTitle}`;
 const canonical = `${SITE}${path}`;
 const alternateLocale: Locale = locale === 'en' ? 'el' : 'en';
+const alternateUrl = `${SITE}${switchLocalePath(path, alternateLocale)}`;
+const ogLocale = locale === 'el' ? 'el_GR' : 'en_GB';
 const beaconToken = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
 ---
 
@@ -38,13 +47,25 @@ const beaconToken = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
         <link
           rel="alternate"
           hreflang={alternateLocale}
-          href={canonical.replace(/^\/(en|el)/, `/${alternateLocale}`)}
+          href={alternateUrl}
         />
       )
     }
     <link rel="alternate" hreflang="x-default" href={`${SITE}/en`} />
-    <meta property="og:type" content="website" />
+    {
+      path !== '/404' && (
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title={t(locale, 'rss.title')}
+          href={`${SITE}/${locale}/rss.xml`}
+        />
+      )
+    }
+    <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={siteTitle} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:locale:alternate" content={alternateLocale === 'en' ? 'en_GB' : 'el_GR'} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
@@ -57,10 +78,17 @@ const beaconToken = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
           />
           <meta property="og:image:width" content="1200" />
           <meta property="og:image:height" content="630" />
+          <meta property="og:image:alt" content={title} />
           <meta name="twitter:card" content="summary_large_image" />
         </>
       )
     }
+    {ogType === 'article' && articlePublished && (
+      <meta property="article:published_time" content={articlePublished} />
+    )}
+    {ogType === 'article' && articleModified && (
+      <meta property="article:modified_time" content={articleModified} />
+    )}
     <meta name="generator" content={Astro.generator} />
     {beaconToken && (
       <script
@@ -79,6 +107,7 @@ const beaconToken = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
       <slot />
     </main>
     <Footer locale={locale} />
+    <Search locale={locale} />
     <button
       id="scroll-top"
       type="button"

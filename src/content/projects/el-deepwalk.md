@@ -1,6 +1,7 @@
 ---
 slug: deepwalk
 lang: el
+cover: deepwalk.webp
 title: DeepWalk από το Μηδέν
 summary: Υλοποίηση DeepWalk σε PyTorch από το μηδέν — τυχαίοι περίπατοι στον γράφο Karate Club που τροφοδοτούν μοντέλο CBOW, με πλήρη αναζήτηση πλέγματος υπερπαραμέτρων και αξιολόγηση t-SNE.
 category: ml

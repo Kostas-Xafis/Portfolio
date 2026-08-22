@@ -1,6 +1,7 @@
 ---
 slug: callcenter
 lang: en
+cover: callcenter.webp
 title: CallCenter Directory
 summary: A self-hosted Bun + SQLite directory of ~1,000 phone records with a hand-rolled fuzzy-search engine, Greek keyboard-layout support and IndexedDB caching.
 category: fullstack

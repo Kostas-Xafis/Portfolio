@@ -1,6 +1,7 @@
 ---
 slug: e-calculator
 lang: el
+cover: e-calculator.webp
 title: E-Calculator
 summary: "Ένα ημερολόγιο βελτιστοποίησης επιδόσεων σε C: έντεκα υλοποιήσεις της σταθεράς Euler, καταλήγοντας σε ένα δισεκατομμύριο ψηφία σε ~2,8 ώρες σε φορητό υπολογιστή μέσω binary splitting, GMP και πολυνηματισμού με ουρές εργασιών."
 category: systems

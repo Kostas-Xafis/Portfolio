@@ -1,10 +1,12 @@
 ---
 slug: alan-compiler-jvm-bytecode
 lang: en
+cover: alan-compiler-jvm-bytecode.webp
 title: "From lexer to JVM bytecode: writing a compiler for the Alan language"
 description: A look inside a complete compiler — JFlex lexer, CUP LALR parser, typed AST with symbol tables, and direct JVM bytecode emission via ASM. The hardest, most technical project I've enjoyed the most.
 date: 2026-08-06
 tags: [compiler, java, jvm, bytecode, asm, alan]
+relatedProjects: [alan-compiler]
 ---
 
 Every compiler course teaches the same pipeline: lexing, parsing, semantic analysis, code generation. Writing one from scratch makes you realize how much each phase quietly does.

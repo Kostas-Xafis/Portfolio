@@ -1,10 +1,12 @@
 ---
 slug: isokratis-web-audio-drone
 lang: en
+cover: isokratis-web-audio-drone.webp
 title: "A drone engine for Byzantine chant on the Web Audio API"
 description: How Isokratis turns Byzantine music theory into a real-time synthesis engine — a 72-moria scale model, oscillator and sample voices, ADSR envelopes, and pitch shifting the way chanters expect it.
 date: 2026-08-08
 tags: [web-audio, isokratis, typescript, pwa, byzantine]
+relatedProjects: [isokratis]
 ---
 
 Isokratis is a practice app for Byzantine chanters. A chanter needs a stable drone — the isokratima — to sing against, and the app synthesizes that drone in real time while the singer chooses the scale and the starting note. The interesting engineering lives in two places: the music model and the audio graph.

@@ -2,12 +2,13 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import JsonLd from '../../../components/JsonLd.astro';
 import { getCollection, render } from 'astro:content';
-import { LOCALES, formatDate, pairTranslation, t, type BlogEntry, type Locale } from '../../../lib/i18n';
+import { LOCALES, formatDate, pairTranslation, slugifyTag, t, type BlogEntry, type Locale } from '../../../lib/i18n';
 import { hasTechIcon } from '../../../lib/techIcons';
 import TechIcon from '../../../components/TechIcon.astro';
 import ArrowLeftIcon from '../../../components/ArrowLeftIcon.astro';
 import ArrowRightIcon from '../../../components/ArrowRightIcon.astro';
 import CoverImage from '../../../components/CoverImage.astro';
+import PostCard from '../../../components/PostCard.astro';
 import { SITE } from '../../../lib/site';
 
 export async function getStaticPaths() {
@@ -26,18 +27,46 @@ const { data } = entry;
 const allPosts = await getCollection('blog');
 const translation = pairTranslation(allPosts, entry);
 
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
 
 const path = `/${locale}/blog/${data.slug}`;
 const readingTime = Math.max(1, Math.ceil((entry.body ?? '').length / 1800));
+const publishedIso = data.date.toISOString();
+const modifiedIso = (data.updated ?? data.date).toISOString();
+
+// Navigation: previous = older, next = newer (chronological order).
+const sorted = allPosts
+  .filter((p) => p.data.lang === locale && !p.data.draft)
+  .sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
+const idx = sorted.findIndex((p) => p.data.slug === data.slug);
+const prev = idx > 0 ? sorted[idx - 1] : undefined;
+const next = idx >= 0 && idx < sorted.length - 1 ? sorted[idx + 1] : undefined;
+
+// Related posts: shared tags first, then most recent.
+const related = allPosts
+  .filter((p) => p.data.lang === locale && !p.data.draft && p.data.slug !== data.slug)
+  .map((p) => ({ post: p, shared: p.data.tags.filter((tag) => data.tags.includes(tag)).length }))
+  .filter((r) => r.shared > 0)
+  .sort((a, b) => b.shared - a.shared || b.post.data.date.valueOf() - a.post.data.date.valueOf())
+  .slice(0, 2)
+  .map((r) => r.post);
+
+// Cross-linked projects declared in frontmatter.
+const relatedProjects = data.relatedProjects?.length
+  ? (await getCollection('projects')).filter(
+      (p) => p.data.lang === locale && data.relatedProjects!.includes(p.data.slug),
+    )
+  : [];
+
+const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
 
 const postSchema = {
   '@context': 'https://schema.org',
   '@type': 'BlogPosting',
   headline: data.title,
   description: data.description,
-  datePublished: data.date.toISOString(),
-  dateModified: data.date.toISOString(),
+  datePublished: publishedIso,
+  dateModified: modifiedIso,
   inLanguage: locale === 'el' ? 'el-GR' : 'en-GB',
   url: `${SITE}${path}`,
   mainEntityOfPage: `${SITE}${path}`,
@@ -47,6 +76,7 @@ const postSchema = {
     name: t(locale, 'name'),
     url: `${SITE}/${locale}`,
   },
+  keywords: data.tags.join(', '),
 };
 ---
 
@@ -55,6 +85,9 @@ const postSchema = {
   description={data.description}
   locale={locale}
   path={path}
+  ogType="article"
+  articlePublished={publishedIso}
+  articleModified={modifiedIso}
 >
   <JsonLd data={postSchema} />
 
@@ -79,13 +112,20 @@ const postSchema = {
       label={data.tags[0]}
       iconTag={data.tags.find((tag) => hasTechIcon(tag))}
       aspect="wide"
+      sizes="(min-width: 1024px) 960px, 100vw"
       class="rounded-lg border border-line"
     />
   </div>
 
   <header class="mb-8" data-reveal>
     <div class="flex flex-wrap items-center gap-3 font-mono text-[11px] uppercase tracking-widest text-ink-faint mb-3">
-      <time datetime={data.date.toISOString()}>{formatDate(locale, data.date)}</time>
+      <time datetime={publishedIso}>{formatDate(locale, data.date)}</time>
+      {data.updated && (
+        <>
+          <span aria-hidden="true">·</span>
+          <span>{t(locale, 'label.updated')}: {formatDate(locale, data.updated)}</span>
+        </>
+      )}
       <span aria-hidden="true">·</span>
       <span>{readingTime} {t(locale, 'blog.reading')}</span>
     </div>
@@ -94,14 +134,36 @@ const postSchema = {
     {data.tags.length > 0 && (
       <div class="flex flex-wrap gap-1.5 mt-5">
         {data.tags.map((tag) => (
-          <span class="inline-flex items-center gap-1 font-mono text-[11px] text-ink-dim bg-surface-2 border border-line rounded px-1.5 py-0.5">
+          <a
+            href={`/${locale}/blog/tag/${slugifyTag(tag)}`}
+            class="inline-flex items-center gap-1 font-mono text-[11px] text-ink-dim bg-surface-2 border border-line rounded px-1.5 py-0.5 no-underline hover:text-accent hover:border-accent/50 transition-colors"
+          >
             {hasTechIcon(tag) ? <TechIcon tag={tag} size={14} /> : '#'}
             {tag}
-          </span>
+          </a>
         ))}
       </div>
     )}
   </header>
+
+  {toc.length > 1 && (
+    <nav
+      class="mb-10 border border-line rounded-lg bg-surface p-4 font-mono text-xs text-ink-dim"
+      aria-label={t(locale, 'blog.toc')}
+      data-reveal
+    >
+      <p class="text-[10px] uppercase tracking-widest text-ink-faint mb-2">{t(locale, 'blog.toc')}</p>
+      <ul class="space-y-1.5">
+        {toc.map((heading) => (
+          <li class:list={[heading.depth === 3 && 'pl-4']}>
+            <a href={`#${heading.slug}`} data-toc-link={heading.slug} class="no-underline hover:text-accent">
+              {heading.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )}
 
   <article class="prose-dark max-w-none">
     <Content />
@@ -129,6 +191,61 @@ const postSchema = {
       {t(locale, 'post.copy-link')}
     </button>
   </footer>
+
+  {(prev || next) && (
+    <nav class="mt-6 grid gap-3 sm:grid-cols-2 font-mono text-xs" aria-label={t(locale, 'nav.blog')}>
+      {prev ? (
+        <a
+          href={`/${locale}/blog/${prev.data.slug}`}
+          class="no-underline border border-line rounded-lg p-4 text-ink-dim hover:text-accent hover:border-accent/50 transition-colors"
+        >
+          <span class="block text-[10px] uppercase tracking-widest text-ink-faint mb-1">← {t(locale, 'post.prev')}</span>
+          <span class="text-ink">{prev.data.title}</span>
+        </a>
+      ) : (
+        <span></span>
+      )}
+      {next ? (
+        <a
+          href={`/${locale}/blog/${next.data.slug}`}
+          class="no-underline border border-line rounded-lg p-4 text-right sm:col-start-2 text-ink-dim hover:text-accent hover:border-accent/50 transition-colors"
+        >
+          <span class="block text-[10px] uppercase tracking-widest text-ink-faint mb-1">{t(locale, 'post.next')} →</span>
+          <span class="text-ink">{next.data.title}</span>
+        </a>
+      ) : (
+        <span></span>
+      )}
+    </nav>
+  )}
+
+  {relatedProjects.length > 0 && (
+    <section class="mt-12 border-t border-line pt-6">
+      <h2 class="text-lg font-semibold tracking-tight mb-4">{t(locale, 'related.projects')}</h2>
+      <ul class="grid gap-3 sm:grid-cols-2">
+        {relatedProjects.map((project) => (
+          <li>
+            <a
+              href={`/${locale}/projects/${project.data.slug}`}
+              class="block no-underline border border-line rounded-lg p-4 hover:border-accent/60 transition-colors"
+            >
+              <span class="block text-ink font-semibold mb-1">{project.data.title}</span>
+              <span class="font-mono text-xs text-ink-faint">{project.data.year}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {related.length > 0 && (
+    <section class="mt-12 border-t border-line pt-6">
+      <h2 class="text-lg font-semibold tracking-tight mb-4">{t(locale, 'related.posts')}</h2>
+      <div class="grid gap-4">
+        {related.map((post) => <PostCard entry={post} locale={locale} />)}
+      </div>
+    </section>
+  )}
 </BaseLayout>
 
 <script>
@@ -143,6 +260,32 @@ const postSchema = {
   window.addEventListener('resize', updateProgress);
   document.addEventListener('astro:page-load', updateProgress);
   updateProgress();
+
+  // Table-of-contents scrollspy: highlight the heading currently in view.
+  const tocLinks = document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]');
+  if (tocLinks.length > 0 && 'IntersectionObserver' in window) {
+    const byId = new Map<string, HTMLAnchorElement>();
+    tocLinks.forEach((link) => byId.set(link.dataset.tocLink ?? '', link));
+
+    const setActive = (slug: string) => {
+      tocLinks.forEach((link) => link.classList.remove('toc-active'));
+      byId.get(slug)?.classList.add('toc-active');
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        }
+      },
+      { rootMargin: '-80px 0px -70% 0px', threshold: 0 },
+    );
+    document.querySelectorAll<HTMLElement>('article h2[id], article h3[id]').forEach((h) => observer.observe(h));
+
+    // Initial state: first heading.
+    const first = document.querySelector<HTMLElement>('article h2[id], article h3[id]');
+    if (first) setActive(first.id);
+  }
 </script>
 
 <script>
@@ -150,3 +293,9 @@ const postSchema = {
 
   initCopyButtons();
 </script>
+
+<style>
+  .toc-active {
+    color: var(--color-accent);
+  }
+</style>

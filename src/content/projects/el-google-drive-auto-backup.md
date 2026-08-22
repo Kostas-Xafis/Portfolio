@@ -1,6 +1,7 @@
 ---
 slug: google-drive-auto-backup
 lang: el
+cover: google-drive-auto-backup.webp
 title: Google Drive Auto Backup
 summary: Ένα CLI σταδιακού backup στο Google Drive με εξαιρέσεις glob, ανίχνευση μετακινήσεων με επίλυση συγκρούσεων και χωρίς επαναφόρτωση αμετάβλητων αρχείων.
 category: extensions

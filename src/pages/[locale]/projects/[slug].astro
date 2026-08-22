@@ -5,6 +5,7 @@ import ArrowRightIcon from '../../../components/ArrowRightIcon.astro';
 import CoverImage from '../../../components/CoverImage.astro';
 import ExternalLinkIcon from '../../../components/ExternalLinkIcon.astro';
 import JsonLd from '../../../components/JsonLd.astro';
+import PostCard from '../../../components/PostCard.astro';
 import StarIcon from '../../../components/StarIcon.astro';
 import TechIcon from '../../../components/TechIcon.astro';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
@@ -33,6 +34,17 @@ const { Content } = await render(entry);
 const path = `/${locale}/projects/${data.slug}`;
 const links = data.links ?? {};
 
+const relatedPosts = data.relatedPosts?.length
+  ? (await getCollection('blog'))
+      .filter(
+        (p) =>
+          p.data.lang === locale &&
+          !p.data.draft &&
+          data.relatedPosts!.includes(p.data.slug),
+      )
+      .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  : [];
+
 const projectSchema = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
@@ -41,6 +53,7 @@ const projectSchema = {
   applicationCategory: 'DeveloperApplication',
   operatingSystem: 'Web',
   inLanguage: locale === 'el' ? 'el-GR' : 'en-GB',
+  dateCreated: new Date(data.year, 0, 1).toISOString(),
   url: links.live ?? links.repo ?? `${SITE}${path}`,
   codeRepository: links.repo,
   author: {
@@ -74,6 +87,7 @@ const projectSchema = {
       label={categoryLabel(locale, data.category)}
       iconTag={data.stack.find((s) => hasTechIcon(s))}
       aspect="wide"
+      sizes="(min-width: 1024px) 960px, 100vw"
       class="rounded-lg border border-line"
     />
   </div>
@@ -146,4 +160,13 @@ const projectSchema = {
       </a>
     ) : null}
   </footer>
+
+  {relatedPosts.length > 0 && (
+    <section class="mt-12 border-t border-line pt-6">
+      <h2 class="text-lg font-semibold tracking-tight mb-4">{t(locale, 'related.posts')}</h2>
+      <div class="grid gap-4">
+        {relatedPosts.map((post) => <PostCard entry={post} locale={locale} />)}
+      </div>
+    </section>
+  )}
 </BaseLayout>

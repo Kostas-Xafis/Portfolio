@@ -1,6 +1,7 @@
 ---
 slug: firecast-lam
 lang: el
+cover: firecast-lam.webp
 title: FireCastNet — Τοπική Μοντελοποίηση (LAM)
 summary: "Η διπλωματική μου εργασία: περιφερειακή πρόβλεψη δασικών πυρκαγιών με γραφικά νευρωνικά δίκτυα στην αρχιτεκτονική GraphCast του FireCastNet, με πλέγματα icosphere ανά περιοχή και γεωχωρικά σταθμισμένες συναρτήσεις απώλειας. Ενσωματώθηκε στους κλάδους lam και lam-visual."
 category: ml

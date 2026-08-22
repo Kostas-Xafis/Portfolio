@@ -1,6 +1,7 @@
 ---
 slug: deepwalk
 lang: en
+cover: deepwalk.webp
 title: DeepWalk from Scratch
 summary: A from-scratch PyTorch implementation of DeepWalk — random walks over the Karate Club graph fed into a CBOW embedding model, with full hyperparameter grid search and t-SNE evaluation.
 category: ml

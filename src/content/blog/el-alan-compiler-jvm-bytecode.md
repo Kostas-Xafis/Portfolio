@@ -1,10 +1,12 @@
 ---
 slug: alan-compiler-jvm-bytecode
 lang: el
+cover: alan-compiler-jvm-bytecode.webp
 title: "Από τον lexer στο JVM bytecode: γράφοντας compiler για τη γλώσσα Alan"
 description: Μια ματιά μέσα σε πλήρη compiler — λεκτικός αναλυτής JFlex, συντακτικός αναλυτής CUP LALR, τυποποιημένο AST με πίνακες συμβόλων και άμεση εκπομπή JVM bytecode μέσω ASM. Το πιο δύσκολο, τεχνικό έργο που απόλαυσα περισσότερο.
 date: 2026-08-06
 tags: [compiler, java, jvm, bytecode, asm, alan]
+relatedProjects: [alan-compiler]
 ---
 
 Κάθε μάθημα compilers διδάσκει το ίδιο pipeline: λεκτική ανάλυση, συντακτική ανάλυση, σημασιολογική ανάλυση, παραγωγή κώδικα. Το να το γράψεις από το μηδέν σε κάνει να συνειδητοποιήσεις πόσα κάνει σιωπηλά κάθε φάση.

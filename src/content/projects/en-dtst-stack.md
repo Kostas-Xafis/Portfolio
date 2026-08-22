@@ -1,6 +1,7 @@
 ---
 slug: dtst-stack
 lang: en
+cover: dtst-stack.webp
 title: DTST — Tax Declaration System
 summary: "A property-transaction tax declaration system delivered end to end: Spring Boot API, React dashboard, and a DevOps pipeline with Docker, Ansible and Jenkins on GCP."
 category: devops

@@ -1,6 +1,7 @@
 ---
 slug: deeplearning-cnns
 lang: en
+cover: deeplearning-cnns.webp
 title: Deep Learning — CNN Architectures
 summary: Five CNN architectures — from scratch and pretrained — for COVID-19 chest X-ray classification in PyTorch, with explicit GPU memory budgeting.
 category: ml

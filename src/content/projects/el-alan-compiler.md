@@ -1,6 +1,7 @@
 ---
 slug: alan-compiler
 lang: el
+cover: alan-compiler.webp
 title: Compiler της Alan
 summary: Πλήρης compiler για τη γλώσσα Alan — λεκτικός αναλυτής JFlex, συντακτικός αναλυτής CUP LALR, τυποποιημένο AST με πίνακες συμβόλων και άμεση παραγωγή JVM bytecode μέσω ASM. Ένα δύσκολο, τεχνικό έργο από την αρχή έως το τέλος.
 category: compilers
@@ -8,6 +9,7 @@ stack: [Java, JFlex, CUP, ASM, Maven]
 status: academic
 year: 2024
 featured: true
+relatedPosts: [alan-compiler-jvm-bytecode]
 links:
   repo: https://github.com/Kostas-Xafis/AlanCompiler
 ---

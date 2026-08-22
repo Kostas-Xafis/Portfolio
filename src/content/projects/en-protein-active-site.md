@@ -1,6 +1,7 @@
 ---
 slug: protein-active-site
 lang: en
+cover: protein-active-site.webp
 title: Protein Active Site Classification
 summary: An end-to-end bioinformatics pipeline — from UniProt queries and 3D protein structures to a trained Keras classifier that predicts active-site residues.
 category: ml

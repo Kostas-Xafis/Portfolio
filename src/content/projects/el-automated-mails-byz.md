@@ -1,6 +1,7 @@
 ---
 slug: automated-mails-byz
 lang: el
+cover: automated-mails-byz.webp
 title: Automated-Mails-Byz
 summary: Υπηρεσία συναλλακτικών email για τη σχολή βυζαντινής μουσικής — τυποποιημένα ελληνικά μηνύματα με πρότυπα μέσω MailerSend και βάση Turso.
 category: fullstack

@@ -140,6 +140,7 @@ async function loadMarkdown(dir) {
       title: fm.title,
       description: fm.summary ?? fm.description,
       category: fm.category,
+      tags: fm.tags ? fm.tags.replace(/[\[\]\s]/g, '').split(',').filter(Boolean) : [],
       featured: fm.featured === 'true',
     });
   }
@@ -184,6 +185,24 @@ async function main() {
       description: p.description,
       tag: LANG_NAMES[p.lang],
     });
+  }
+
+  // Blog tag archive pages (mirrors getStaticPaths in src/pages/[locale]/blog/tag/[tag].astro).
+  const slugify = (s) => s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-+|-+$/g, '');
+  const tagsByLang = { en: new Set(), el: new Set() };
+  for (const p of posts) {
+    for (const tag of p.tags) tagsByLang[p.lang].add(tag);
+  }
+  for (const lang of ['en', 'el']) {
+    const label = lang === 'en' ? 'Blog posts tagged' : 'Αναρτήσεις με ετικέτα';
+    for (const tag of tagsByLang[lang]) {
+      pages.push({
+        path: `${lang}/blog/tag/${slugify(tag)}.png`,
+        title: `#${tag}`,
+        description: `${label} #${tag}`,
+        tag: LANG_NAMES[lang],
+      });
+    }
   }
 
   let count = 0;

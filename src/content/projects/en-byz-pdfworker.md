@@ -1,6 +1,7 @@
 ---
 slug: byz-pdfworker
 lang: en
+cover: byz-pdfworker.webp
 title: Byz-PdfWorker
 summary: A type-safe PDF-generation microservice that fills official Byzantine music school registration forms, embeds custom fonts, merges batches and authenticates callers.
 category: fullstack

@@ -1,6 +1,7 @@
 ---
 slug: protein-active-site
 lang: el
+cover: protein-active-site.webp
 title: Ταξινόμηση Ενεργών Κέντρων Πρωτεϊνών
 summary: Ολοκληρωμένο βιοπληροφορικό pipeline — από ερωτήματα UniProt και τρισδιάστατες πρωτεϊνικές δομές έως εκπαιδευμένο ταξινομητή Keras που προβλέπει τα κατάλοιπα ενεργών κέντρων.
 category: ml

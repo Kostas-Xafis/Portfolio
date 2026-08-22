@@ -1,6 +1,7 @@
 ---
 slug: byzantini-website
 lang: el
+cover: byzantini-website.webp
 title: Πλατφόρμα Σχολής Βυζαντινής Μουσικής
 summary: Μια πλατφόρμα παραγωγής για σχολή βυζαντινής μουσικής — δημόσιος ιστότοπος, εγγραφές, διαχείριση καθηγητών και βιβλίων, πληρωμές και admin panel, στο Cloudflare Pages με τυποποιημένο Valibot API.
 category: fullstack

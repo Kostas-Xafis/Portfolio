@@ -1,6 +1,7 @@
 ---
 slug: e-calculator
 lang: en
+cover: e-calculator.webp
 title: E-Calculator
 summary: "An iterative performance-engineering diary in C: eleven implementations of Euler's constant, ending at one billion digits in ~2.8 hours on a laptop via binary splitting, GMP and task-queue multithreading."
 category: systems

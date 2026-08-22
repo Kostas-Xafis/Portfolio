@@ -1,6 +1,7 @@
 ---
 slug: workscheduling
 lang: el
+cover: workscheduling.webp
 title: WorkScheduling
 summary: Μηνιαίος προγραμματιστής βαρδιών για ομάδα έξι ατόμων με ισορροπία δικαιοσύνης και εξαγωγή έγχρωμου PDF προγράμματος σε οριζόντιο A4.
 category: fullstack

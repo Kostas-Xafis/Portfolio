@@ -1,6 +1,6 @@
 ---
 import type { Locale } from '../lib/i18n';
-import { formatDate, t } from '../lib/i18n';
+import { formatDate, slugifyTag, t } from '../lib/i18n';
 import type { BlogEntry } from '../lib/i18n';
 import { hasTechIcon } from '../lib/techIcons';
 import TechIcon from './TechIcon.astro';
@@ -17,21 +17,27 @@ const href = `/${locale}/blog/${data.slug}`;
 const readingTime = Math.max(1, Math.ceil((entry.body ?? '').length / 1800));
 ---
 
-<a
-  href={href}
+<article
   data-reveal
-  class="group block no-underline border border-line bg-surface rounded-lg overflow-hidden transition-colors duration-150 hover:border-accent/60"
+  class="group relative border border-line bg-surface rounded-lg overflow-hidden transition-colors duration-150 hover:border-accent/60"
 >
   <CoverImage
     cover={data.cover}
-    alt={data.title}
+    alt=""
     label={data.tags[0]}
     iconTag={data.tags.find((tag) => hasTechIcon(tag))}
     class="border-b border-line"
   />
+  <a href={href} class="absolute inset-0 z-10 rounded-lg" aria-label={data.title}></a>
   <div class="p-5">
     <div class="flex items-center gap-3 mb-2 font-mono text-xs text-ink-faint">
       <time datetime={data.date.toISOString()}>{formatDate(locale, data.date)}</time>
+      {data.updated && (
+        <>
+          <span aria-hidden="true">·</span>
+          <span>{t(locale, 'label.updated')}: {formatDate(locale, data.updated)}</span>
+        </>
+      )}
       <span aria-hidden="true">·</span>
       <span>{readingTime} {t(locale, 'blog.reading')}</span>
     </div>
@@ -40,14 +46,17 @@ const readingTime = Math.max(1, Math.ceil((entry.body ?? '').length / 1800));
     </h3>
     <p class="text-sm text-ink-dim leading-relaxed">{data.description}</p>
     {data.tags.length > 0 && (
-      <div class="flex flex-wrap gap-1.5 mt-3">
+      <div class="flex flex-wrap gap-1.5 mt-3 relative z-20">
         {data.tags.map((tag) => (
-          <span class="inline-flex items-center gap-1 font-mono text-xs text-ink-dim bg-surface-2 border border-line rounded px-1.5 py-0.5">
+          <a
+            href={`/${locale}/blog/tag/${slugifyTag(tag)}`}
+            class="inline-flex items-center gap-1 font-mono text-xs text-ink-dim bg-surface-2 border border-line rounded px-1.5 py-0.5 no-underline hover:text-accent hover:border-accent/50 transition-colors"
+          >
             {hasTechIcon(tag) ? <TechIcon tag={tag} size={14} /> : '#'}
             {tag}
-          </span>
+          </a>
         ))}
       </div>
     )}
   </div>
-</a>
+</article>

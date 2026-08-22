@@ -1,6 +1,7 @@
 ---
 slug: deeplearning-cnns
 lang: el
+cover: deeplearning-cnns.webp
 title: Βαθιά Μάθηση — Αρχιτεκτονικές CNN
 summary: Πέντε αρχιτεκτονικές CNN — από το μηδέν και με προεκπαίδευση — για ταξινόμηση ακτινογραφιών COVID-19 σε PyTorch, με ρητό προϋπολογισμό μνήμης GPU.
 category: ml

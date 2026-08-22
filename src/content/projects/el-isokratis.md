@@ -1,6 +1,7 @@
 ---
 slug: isokratis
 lang: el
+cover: isokratis.webp
 title: Isokratis
 summary: Μια freemium PWA που παράγει τον σταθερό ήχο ισοκρατήματος για ψάλτες, βασισμένη σε μαθηματικά ορισμένο μουσικό μοντέλο moria και μηχανή ήχου Web Audio, τρέχοντας στο Cloudflare edge.
 category: fullstack
@@ -8,6 +9,7 @@ stack: [Astro 5, React 19, TypeScript, Tailwind CSS 4, Web Audio API, Zustand, C
 status: production
 year: 2026
 featured: true
+relatedPosts: [isokratis-web-audio-drone]
 links:
   repo: https://github.com/Kostas-Xafis/Isokratis
   live: https://isokratis.com

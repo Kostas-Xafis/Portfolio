@@ -1,6 +1,7 @@
 ---
 slug: instructgpt-local-llms
 lang: el
+cover: instructgpt-local-llms.webp
 title: Πειράματα με Τοπικά LLMs
 summary: Χειροπιαστά πειράματα με κβαντισμένα ανοιχτά LLMs — Llama 3.2 και Aya μέσω llama-cpp — που καλύπτουν ποικιλία προτροπών, παραμέτρους δειγματοληψίας και ομοιότητα ενσωματώσεων.
 category: ml

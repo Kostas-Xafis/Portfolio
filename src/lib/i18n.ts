@@ -27,6 +27,10 @@ export const ui = {
     'blog.title': 'Blog',
     'blog.subtitle': 'Technical write-ups on the projects I build.',
     'blog.reading': 'min read',
+    'blog.toc': 'On this page',
+    'blog.posts.one': 'post',
+    'blog.posts.other': 'posts',
+    'blog.tags': 'Tags',
     'about.title': 'About',
     'contact.title': 'Contact',
     'contact.email.cta': 'Email me',
@@ -56,6 +60,17 @@ export const ui = {
     'label.paper': 'Paper',
     'label.tags': 'Tags',
     'label.published': 'Published',
+    'label.updated': 'Updated',
+    'rss.title': 'Blog RSS',
+    'blog.feed': 'RSS feed',
+    'search.title': 'Search',
+    'search.placeholder': 'Search projects, posts and tags…',
+    'search.no-results': 'No results for',
+    'search.close': 'Close search',
+    'post.prev': 'Previous post',
+    'post.next': 'Next post',
+    'related.projects': 'Related projects',
+    'related.posts': 'Related posts',
     'notfound.title': 'Page not found',
     'notfound.body': 'The page you are looking for does not exist.',
     'notfound.home': 'Back to home',
@@ -83,6 +98,10 @@ export const ui = {
     'blog.title': 'Blog',
     'blog.subtitle': 'Τεχνικά άρθρα για τα έργα που υλοποιώ.',
     'blog.reading': 'λεπτά ανάγνωσης',
+    'blog.toc': 'Σε αυτή τη σελίδα',
+    'blog.posts.one': 'ανάρτηση',
+    'blog.posts.other': 'αναρτήσεις',
+    'blog.tags': 'Ετικέτες',
     'about.title': 'Σχετικά',
     'contact.title': 'Επικοινωνία',
     'contact.email.cta': 'Στείλτε μου email',
@@ -112,6 +131,17 @@ export const ui = {
     'label.paper': 'Εργασία',
     'label.tags': 'Ετικέτες',
     'label.published': 'Δημοσιεύτηκε',
+    'label.updated': 'Ενημερώθηκε',
+    'rss.title': 'RSS Blog',
+    'blog.feed': 'Ροή RSS',
+    'search.title': 'Αναζήτηση',
+    'search.placeholder': 'Αναζήτηση σε έργα, αναρτήσεις και ετικέτες…',
+    'search.no-results': 'Κανένα αποτέλεσμα για',
+    'search.close': 'Κλείσιμο αναζήτησης',
+    'post.prev': 'Προηγούμενη ανάρτηση',
+    'post.next': 'Επόμενη ανάρτηση',
+    'related.projects': 'Σχετικά έργα',
+    'related.posts': 'Σχετικές αναρτήσεις',
     'notfound.title': 'Η σελίδα δεν βρέθηκε',
     'notfound.body': 'Η σελίδα που αναζητάτε δεν υπάρχει.',
     'notfound.home': 'Επιστροφή στην αρχική',
@@ -162,4 +192,12 @@ export function formatDate(lang: Locale, date: Date): string {
     month: 'short',
     day: 'numeric',
   }).format(date);
+}
+
+/** Slugify a tag for URL use: lower-case, keep letters/numbers (incl. Greek). */
+export function slugifyTag(tag: string): string {
+  return tag
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, '-')
+    .replace(/^-+|-+$/g, '');
 }

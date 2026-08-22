@@ -1,6 +1,7 @@
 ---
 slug: keyboard-navigator
 lang: el
+cover: keyboard-navigator.webp
 title: KeyboardNavigator
 summary: Επέκταση προγράμματος περιήγησης Manifest V3 για πλοήγηση με πληκτρολόγιο — ένας συνδυασμός πλήκτρων επισημαίνει κάθε προσβάσιμο στοιχείο με κωδικό δύο σετ για άμεση μετάβαση.
 category: extensions

@@ -1,6 +1,7 @@
 ---
 slug: callcenter-counter
 lang: el
+cover: callcenter-counter.webp
 title: CallCenterCounter
 summary: Εφαρμογή σε Cloudflare Workers + D1 όπου οι χειριστές τηλεφωνικού κέντρου καταγράφουν τα προσωπικά τους κλήσεις, με γραφήματα, εγγραφή μόνο με πρόσκληση και ωράριο λειτουργίας στην παραγωγή.
 category: fullstack

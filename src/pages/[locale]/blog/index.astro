@@ -2,7 +2,7 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PostCard from '../../../components/PostCard.astro';
 import { getCollection } from 'astro:content';
-import { LOCALES, t, type Locale } from '../../../lib/i18n';
+import { LOCALES, slugifyTag, t, type Locale } from '../../../lib/i18n';
 
 export function getStaticPaths() {
   return LOCALES.map((locale) => ({ params: { locale } }));
@@ -14,6 +14,14 @@ const path = `/${locale}/blog`;
 const posts = (await getCollection('blog'))
   .filter((p) => p.data.lang === locale && !p.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const tagCounts = new Map<string, number>();
+for (const post of posts) {
+  for (const tag of post.data.tags) {
+    tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
+  }
+}
+const tags = [...tagCounts.entries()].sort((a, b) => b[1] - a[1]);
 ---
 
 <BaseLayout
@@ -23,9 +31,32 @@ const posts = (await getCollection('blog'))
   path={path}
 >
   <header data-reveal>
-    <h1 class="text-4xl font-bold tracking-tight mb-3">{t(locale, 'blog.title')}</h1>
+    <div class="flex items-baseline justify-between gap-4 flex-wrap mb-3">
+      <h1 class="text-4xl font-bold tracking-tight">{t(locale, 'blog.title')}</h1>
+      <a
+        href={`/${locale}/rss.xml`}
+        class="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-widest no-underline text-ink-dim hover:text-accent"
+      >
+        {t(locale, 'blog.feed')}
+      </a>
+    </div>
     <p class="text-lg text-ink-dim mb-10">{t(locale, 'blog.subtitle')}</p>
   </header>
+  {
+    tags.length > 0 && (
+      <nav class="flex flex-wrap gap-2 mb-10 font-mono text-xs" aria-label={t(locale, 'blog.tags')}>
+        {tags.map(([tag, count]) => (
+          <a
+            href={`/${locale}/blog/tag/${slugifyTag(tag)}`}
+            class="no-underline text-ink-dim hover:text-accent border border-line rounded px-2.5 py-1.5 hover:border-accent/50 transition-colors"
+          >
+            #{tag}
+            <span class="text-ink-faint"> {count}</span>
+          </a>
+        ))}
+      </nav>
+    )
+  }
   <div class="grid gap-4">
     {posts.map((entry) => <PostCard entry={entry} locale={locale} />)}
   </div>
