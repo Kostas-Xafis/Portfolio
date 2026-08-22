@@ -1,10 +1,16 @@
 ---
-import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { getCollection, render } from 'astro:content';
-import { LOCALES, categoryLabel, pairTranslation, statusLabel, t, type Locale, type ProjectEntry } from '../../../lib/i18n';
-import { hasTechIcon } from '../../../lib/techIcons';
-import TechIcon from '../../../components/TechIcon.astro';
+import ArrowLeftIcon from '../../../components/ArrowLeftIcon.astro';
+import ArrowRightIcon from '../../../components/ArrowRightIcon.astro';
+import CoverImage from '../../../components/CoverImage.astro';
+import ExternalLinkIcon from '../../../components/ExternalLinkIcon.astro';
+import JsonLd from '../../../components/JsonLd.astro';
 import StarIcon from '../../../components/StarIcon.astro';
+import TechIcon from '../../../components/TechIcon.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { LOCALES, categoryLabel, pairTranslation, statusLabel, t, type Locale, type ProjectEntry } from '../../../lib/i18n';
+import { SITE } from '../../../lib/site';
+import { hasTechIcon } from '../../../lib/techIcons';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -26,6 +32,24 @@ const { Content } = await render(entry);
 
 const path = `/${locale}/projects/${data.slug}`;
 const links = data.links ?? {};
+
+const projectSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: data.title,
+  description: data.summary,
+  applicationCategory: 'DeveloperApplication',
+  operatingSystem: 'Web',
+  inLanguage: locale === 'el' ? 'el-GR' : 'en-GB',
+  url: links.live ?? links.repo ?? `${SITE}${path}`,
+  codeRepository: links.repo,
+  author: {
+    '@type': 'Person',
+    '@id': `${SITE}/#person`,
+    name: t(locale, 'name'),
+    url: `${SITE}/${locale}`,
+  },
+};
 ---
 
 <BaseLayout
@@ -34,11 +58,27 @@ const links = data.links ?? {};
   locale={locale}
   path={path}
 >
+  <JsonLd data={projectSchema} />
+
   <nav class="font-mono text-xs text-ink-faint mb-8">
-    <a href={`/${locale}/projects`} class="no-underline hover:text-accent">← {t(locale, 'nav.projects')}</a>
+    <a href={`/${locale}/projects`} class="inline-flex items-center gap-1.5 no-underline hover:text-accent">
+      <ArrowLeftIcon size={12} />
+      {t(locale, 'nav.projects')}
+    </a>
   </nav>
 
-  <header class="mb-8">
+  <div data-reveal class="mb-8">
+    <CoverImage
+      cover={data.cover}
+      alt={data.title}
+      label={categoryLabel(locale, data.category)}
+      iconTag={data.stack.find((s) => hasTechIcon(s))}
+      aspect="wide"
+      class="rounded-lg border border-line"
+    />
+  </div>
+
+  <header class="mb-8" data-reveal>
     <div class="flex flex-wrap items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-ink-faint mb-3">
       <span class="text-accent">{categoryLabel(locale, data.category)}</span>
       <span aria-hidden="true">·</span>
@@ -69,18 +109,22 @@ const links = data.links ?? {};
     {(links.repo || links.live || links.paper) && (
       <div class="flex flex-wrap gap-4 text-sm">
         {links.repo && (
-          <a href={links.repo} target="_blank" rel="noopener noreferrer" class="no-underline border border-accent/40 rounded px-4 py-2 hover:border-accent-strong">
-            {t(locale, 'label.repo')} ↗
+          <a href={links.repo} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 no-underline border border-accent/40 rounded px-4 py-2 hover:border-accent-strong">
+            <TechIcon tag="github" size={15} />
+            {t(locale, 'label.repo')}
+            <ExternalLinkIcon size={15} />
           </a>
         )}
         {links.live && (
-          <a href={links.live} target="_blank" rel="noopener noreferrer" class="no-underline text-ink-dim hover:text-ink border border-line rounded px-4 py-2">
-            {t(locale, 'label.live')} ↗
+          <a href={links.live} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 no-underline text-ink-dim hover:text-ink border border-line rounded px-4 py-2">
+            {t(locale, 'label.live')}
+            <ExternalLinkIcon size={15} />
           </a>
         )}
         {links.paper && (
-          <a href={links.paper} target="_blank" rel="noopener noreferrer" class="no-underline text-ink-dim hover:text-ink border border-line rounded px-4 py-2">
-            {t(locale, 'label.paper')} ↗
+          <a href={links.paper} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 no-underline text-ink-dim hover:text-ink border border-line rounded px-4 py-2">
+            {t(locale, 'label.paper')}
+            <ExternalLinkIcon size={15} />
           </a>
         )}
       </div>
@@ -95,9 +139,10 @@ const links = data.links ?? {};
     {translation ? (
       <a
         href={`/${translation.data.lang}/projects/${translation.data.slug}`}
-        class="no-underline hover:text-accent"
+        class="inline-flex items-center gap-1.5 no-underline hover:text-accent"
       >
-        {translation.data.lang === 'el' ? 'Διαβάστε στα ελληνικά' : 'Read in English'} →
+        {translation.data.lang === 'el' ? 'Διαβάστε στα ελληνικά' : 'Read in English'}
+        <ArrowRightIcon size={12} />
       </a>
     ) : null}
   </footer>

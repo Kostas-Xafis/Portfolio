@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import JsonLd from '../../components/JsonLd.astro';
 import { LOCALES, t, type Locale } from '../../lib/i18n';
+import { SITE } from '../../lib/site';
 
 export function getStaticPaths() {
   return LOCALES.map((locale) => ({ params: { locale } }));
@@ -8,6 +10,17 @@ export function getStaticPaths() {
 
 const { locale } = Astro.params as { locale: Locale };
 const path = `/${locale}/about`;
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': `${SITE}/#person`,
+  name: t(locale, 'name'),
+  url: `${SITE}${path}`,
+  jobTitle: t(locale, 'hero.greeting'),
+  email: 'mailto:koxafis@gmail.com',
+  sameAs: ['https://github.com/Kostas-Xafis'],
+};
 ---
 
 <BaseLayout
@@ -16,11 +29,13 @@ const path = `/${locale}/about`;
   locale={locale}
   path={path}
 >
-  <h1 class="text-4xl font-bold tracking-tight mb-8">{t(locale, 'about.title')}</h1>
+  <JsonLd data={personSchema} />
+
+  <h1 class="text-4xl font-bold tracking-tight mb-8" data-reveal>{t(locale, 'about.title')}</h1>
 
   {
     locale === 'en' ? (
-      <div class="prose-dark max-w-none">
+      <div class="prose-dark max-w-none" data-reveal>
         <p>
           I am a software engineer based in Greece, with a background from the Department of
           Informatics and Telematics at Harokopio University of Athens. My work spans the full
@@ -48,7 +63,7 @@ const path = `/${locale}/about`;
         </p>
       </div>
     ) : (
-      <div class="prose-dark max-w-none">
+      <div class="prose-dark max-w-none" data-reveal>
         <p>
           Είμαι μηχανικός λογισμικού από την Ελλάδα, απόφοιτος του Τμήματος Πληροφορικής και
           Τηλεματικής του Χαροκόπειου Πανεπιστημίου. Η δουλειά μου καλύπτει ολόκληρο το stack,
@@ -78,7 +93,7 @@ const path = `/${locale}/about`;
     )
   }
 
-  <section class="mt-12 border-t border-line pt-8">
+  <section class="mt-12 border-t border-line pt-8" data-reveal>
     <h2 class="text-lg font-semibold tracking-tight mb-4">
       {locale === 'en' ? 'Areas of work' : 'Αντικείμενα εργασίας'}
     </h2>

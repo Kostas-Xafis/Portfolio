@@ -11,6 +11,25 @@ const target = '/en';
     <meta http-equiv="refresh" content={`0; url=${target}`} />
     <link rel="canonical" href={`${SITE}${target}`} />
     <title>Konstantinos Xafis — Software Engineer</title>
+    <script is:inline>
+      (function () {
+        // Client-side fallback for the Pages _middleware.js redirect
+        // (used by astro dev / preview and non-Pages hosts).
+        var lang = 'en';
+        try {
+          var saved = localStorage.getItem('preferred-locale');
+          if (saved === 'en' || saved === 'el') {
+            lang = saved;
+          } else {
+            var browser = (navigator.language || 'en').toLowerCase();
+            if (browser.indexOf('el') === 0) lang = 'el';
+          }
+        } catch (e) {
+          /* storage unavailable — keep default */
+        }
+        location.replace('/' + lang);
+      })();
+    </script>
   </head>
   <body>
     <p>

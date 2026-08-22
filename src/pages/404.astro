@@ -1,16 +1,177 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { TERMINAL } from '../lib/terminal404';
 ---
 
-<BaseLayout
-  title="404"
-  description="Page not found"
-  locale="en"
-  path="/404"
->
-  <h1 class="text-3xl font-semibold mb-4">404 — Page not found</h1>
-  <p class="text-ink-dim mb-8">The page you are looking for does not exist.</p>
-  <a href="/en" class="no-underline border border-accent/40 rounded px-4 py-2 text-sm hover:border-accent-strong">
-    Back to home
-  </a>
+<BaseLayout title="404" description="Page not found" locale="en" path="/404">
+  <div data-reveal class="max-w-2xl mx-auto">
+    <h1 id="term-title" class="text-3xl font-semibold mb-4 text-center">{TERMINAL.en.title}</h1>
+    <p id="term-copy" class="text-ink-dim mb-8 text-center">{TERMINAL.en.body}</p>
+
+    <div class="border border-line bg-surface rounded-lg overflow-hidden font-mono text-sm">
+      <div class="flex items-center gap-1.5 border-b border-line px-4 py-2.5">
+        <span class="w-2.5 h-2.5 rounded-full bg-[#ff5f57]"></span>
+        <span class="w-2.5 h-2.5 rounded-full bg-[#febc2e]"></span>
+        <span class="w-2.5 h-2.5 rounded-full bg-[#28c840]"></span>
+        <span class="ml-2 text-xs text-ink-faint">kx@portfolio: ~</span>
+      </div>
+
+      <div id="term-screen" class="p-4 sm:p-5 space-y-1.5 leading-relaxed">
+        <p id="term-comment" class="text-ink-faint"># {TERMINAL.en.comment}</p>
+        <p class="text-ink-faint">visitor@kx:~$ <span class="text-ink">help</span></p>
+        <p id="term-help" class="text-ink-dim">{TERMINAL.en.help}</p>
+        <div id="term-out" class="space-y-1.5"></div>
+        <form id="term-form" class="flex items-center gap-2 pt-2">
+          <label class="sr-only" for="term-input">{TERMINAL.en.inputAria}</label>
+          <span aria-hidden="true" class="text-accent shrink-0">visitor@kx:~$</span>
+          <input
+            id="term-input"
+            type="text"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+            placeholder={TERMINAL.en.promptLabel}
+            class="w-full bg-transparent text-ink placeholder:text-ink-faint caret-accent"
+          />
+        </form>
+      </div>
+    </div>
+
+    <div class="mt-8 text-center">
+      <a
+        id="term-home"
+        href="/en"
+        class="no-underline border border-accent/40 rounded px-4 py-2 text-sm hover:border-accent-strong"
+      >
+        {TERMINAL.en.home}
+      </a>
+    </div>
+  </div>
 </BaseLayout>
+
+<script>
+  import { navigate } from 'astro:transitions/client';
+  import { TERMINAL, type Lang } from '../lib/terminal404';
+
+  function detectLang(): Lang {
+    try {
+      const saved = localStorage.getItem('preferred-locale');
+      if (saved === 'en' || saved === 'el') return saved;
+      return (navigator.language || 'en').toLowerCase().startsWith('el') ? 'el' : 'en';
+    } catch {
+      return 'en';
+    }
+  }
+
+  let boundForm: HTMLFormElement | null = null;
+
+  function init() {
+    const form = document.getElementById('term-form') as HTMLFormElement | null;
+    const input = document.getElementById('term-input') as HTMLInputElement | null;
+    if (!form || !input) return;
+    if (boundForm === form) return;
+    boundForm = form;
+
+    const lang = detectLang();
+    const t = TERMINAL[lang];
+    document.documentElement.lang = lang;
+    document.title = t.title;
+
+    const title = document.getElementById('term-title');
+    const copy = document.getElementById('term-copy');
+    const comment = document.getElementById('term-comment');
+    const help = document.getElementById('term-help');
+    const homeLink = document.getElementById('term-home') as HTMLAnchorElement | null;
+    const screen = document.getElementById('term-screen');
+    const out = document.getElementById('term-out');
+
+    if (title) title.textContent = t.title;
+    if (copy) copy.textContent = t.body;
+    if (comment) comment.textContent = '# ' + t.comment;
+    if (help) help.textContent = t.help;
+    input.placeholder = t.promptLabel;
+    if (homeLink) {
+      homeLink.textContent = t.home;
+      homeLink.href = '/' + lang;
+    }
+
+    const history: string[] = [];
+    let histIdx = 0;
+
+    function print(line: string, kind: 'echo' | 'out' | 'error') {
+      if (!out || !screen) return;
+      const p = document.createElement('p');
+      if (kind === 'echo') {
+        p.className = 'text-ink-faint';
+        p.textContent = 'visitor@kx:~$ ' + line;
+      } else if (kind === 'error') {
+        p.className = 'text-accent';
+        p.textContent = line;
+      } else {
+        p.className = 'text-ink-dim';
+        p.textContent = line;
+      }
+      out.appendChild(p);
+      while (out.children.length > 20) out.removeChild(out.firstChild!);
+      screen.scrollTop = screen.scrollHeight;
+    }
+
+    function run(raw: string) {
+      const cmd = raw.trim().toLowerCase();
+      if (!cmd) return;
+      history.push(cmd);
+      histIdx = history.length;
+      print(cmd, 'echo');
+
+      switch (cmd) {
+        case 'help':
+          print(t.help, 'out');
+          break;
+        case 'whoami':
+          print(t.whoami, 'out');
+          break;
+        case 'ls':
+          for (const entry of t.ls.split(/\s{2,}/)) print(entry, 'out');
+          break;
+        case 'home':
+          navigate('/' + lang);
+          break;
+        case 'projects':
+        case 'blog':
+        case 'about':
+        case 'contact':
+          navigate('/' + lang + '/' + cmd);
+          break;
+        default:
+          print(t.notFound + ' ' + raw.trim(), 'error');
+          print(t.hint, 'out');
+      }
+    }
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      run(input.value);
+      input.value = '';
+      input.focus();
+    });
+
+    input.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        if (histIdx > 0) {
+          histIdx -= 1;
+          input.value = history[histIdx] ?? '';
+        }
+      } else if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        if (histIdx < history.length) {
+          histIdx += 1;
+          input.value = histIdx === history.length ? '' : (history[histIdx] ?? '');
+        }
+      }
+    });
+  }
+
+  init();
+  document.addEventListener('astro:page-load', init);
+</script>

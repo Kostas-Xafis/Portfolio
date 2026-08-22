@@ -1,0 +1,433 @@
+=====================================================================
+  COVER IMAGE GENERATION PROMPTS
+  Konstantinos Xafis portfolio — kostas-portfolio.pages.dev
+=====================================================================
+
+HOW TO USE
+----------
+1. Copy ONE "Prompt:" paragraph (it is fully self-contained) into your
+   image generator of choice (Midjourney, DALL-E, Flux, Ideogram, ...).
+2. Generate at 16:9 (1200x675) or wider. Keep the main subject centered:
+   the detail pages crop the same image to a 2:1 banner.
+3. Save the result as the suggested filename in src/assets/covers/
+   (webp recommended, png/jpg also supported).
+4. Add the frontmatter line  cover: <filename>  to the matching content
+   file — ideally BOTH the en- and el- versions, or the other language
+   will keep showing the placeholder.
+5. Entries you skip keep the styled placeholder automatically — nothing
+   breaks, so generate only the ones you like.
+
+SHARED VISUAL IDENTITY
+----------------------
+Every prompt below bakes in the site's design language so the covers
+feel like one set: near-black background (#0b0b0c), deep slate surfaces
+(#131315), a single warm golden-amber accent (#d2a24f), high contrast,
+minimal composition with generous negative space, soft cinematic glow,
+and no text or logos (the UI adds labels and icons where needed).
+
+The only intentional exception is "firecast-lam", which allows a muted
+ember-orange to carry the wildfire theme.
+
+=====================================================================
+  PROJECTS
+=====================================================================
+
+---------------------------------------------------------------------
+1. FILE: isokratis.webp  —  "Isokratis" (Byzantine chant drone PWA)
+---------------------------------------------------------------------
+Prompt:
+A single sustained golden tone radiating concentric glowing sound-wave
+ripples through dark space, in front of a faint ornate Byzantine chant
+manuscript page covered in abstract neume-like marks, a minimal
+smartphone silhouette floating at the origin of the waves, and a fine
+arc divided into 72 tiny segment marks suggesting a microtonal scale.
+Dark minimal tech-art illustration, near-black background #0b0b0c,
+deep slate surfaces #131315, warm golden-amber accent #d2a24f with
+soft glow, high contrast, clean modern composition with generous
+negative space, cinematic rim light, subtle film grain, no text, no
+letters, no watermark, no logo.
+
+Negative: text, letters, words, watermark, logo, signature, cluttered
+composition, bright daylight, oversaturated colors, low quality, blurry
+
+---------------------------------------------------------------------
+2. FILE: byzantini-website.webp  —  "Byzantine Music School Platform"
+---------------------------------------------------------------------
+Prompt:
+A tidy isometric still-life of a school administration ecosystem: a
+minimal Byzantine domed church line-drawing, stacked student record
+cards, a few books, registration slips and small coins, all arranged
+on a dark slate desk as a carefully organized grid, with one warm
+golden lamp glow from above tying the scene together. Dark minimal
+tech-art illustration, near-black background #0b0b0c, deep slate
+surfaces #131315, warm golden-amber accent #d2a24f with soft glow,
+high contrast, clean modern composition with generous negative space,
+cinematic rim light, subtle film grain, no text, no letters, no
+watermark, no logo.
+
+Negative: text, letters, words, watermark, logo, signature, cluttered
+composition, bright daylight, oversaturated colors, low quality, blurry
+
+---------------------------------------------------------------------
+3. FILE: callcenter-counter.webp  —  "CallCenterCounter"
+---------------------------------------------------------------------
+Prompt:
+A single oversized tactile counter button in warm gold being pressed
+by a fingertip, a glow rising from it like an odometer increment, a
+smooth bar chart climbing upward beside it, a subtle headset
+silhouette resting nearby, and a faint grid of tally marks in the
+background. Dark minimal tech-art illustration, near-black background
+#0b0b0c, deep slate surfaces #131315, warm golden-amber accent #d2a24f
+with soft glow, high contrast, clean modern composition with generous
+negative space, cinematic rim light, subtle film grain, no text, no
+letters, no watermark, no logo.
+
+Negative: text, letters, words, watermark, logo, signature, cluttered
+composition, bright daylight, oversaturated colors, low quality, blurry
+
+---------------------------------------------------------------------
+4. FILE: callcenter.webp  —  "CallCenter Directory"
+---------------------------------------------------------------------
+Prompt:
+A luminous card-index drawer with telephone directory cards fanning
+out in an elegant arc, a glowing search-ring hovering above the cards,
+abstract Greek alphabet glyph shapes floating and gently reordering
+themselves into a match, and a soft database cylinder glowing faintly
+in the background. Dark minimal tech-art illustration, near-black
+background #0b0b0c, deep slate surfaces #131315, warm golden-amber
+accent #d2a24f with soft glow, high contrast, clean modern composition
+with generous negative space, cinematic rim light, subtle film grain,
+no text, no letters, no watermark, no logo.
+
+Negative: text, letters, words, watermark, logo, signature, cluttered
+composition, bright daylight, oversaturated colors, low quality, blurry
+
+---------------------------------------------------------------------
+5. FILE: workscheduling.webp  —  "WorkScheduling"
+---------------------------------------------------------------------
+Prompt:
+An elegant dark monthly calendar grid with color-coded shift cells in
+muted gold and amber tones, a pair of dice resting on one corner
+suggesting deterministic randomness, and a landscape A4 roster page
+curling slightly at a corner with a printed legend strip of colored
+squares. Dark minimal tech-art illustration, near-black background
+#0b0b0c, deep slate surfaces #131315, warm golden-amber accent #d2a24f
+with soft glow, high contrast, clean modern composition with generous
+negative space, cinematic rim light, subtle film grain, no text, no
+letters, no watermark, no logo.
+
+Negative: text, letters, words, watermark, logo, signature, cluttered
+composition, bright daylight, oversaturated colors, low quality, blurry
+
+---------------------------------------------------------------------
+6. FILE: byz-pdfworker.webp  —  "Byz-PdfWorker"
+---------------------------------------------------------------------
+Prompt:
+A formal paper form floating above a dark desk, precise golden
+alignment crosshairs and a fine coordinate grid locking its empty
+fields into place, an ornate pen nib touching one field, tiny Greek-
+like abstract glyph marks filling the boxes, and a neat stack of
+merged pages lying beside it. Dark minimal tech-art illustration,
+near-black background #0b0b0c, deep slate surfaces #131315, warm
+golden-amber accent #d2a24f with soft glow, high contrast, clean
+modern composition with generous negative space, cinematic rim light,
+subtle film grain, no text, no letters, no watermark, no logo.
+
+Negative: text, letters, words, watermark, logo, signature, cluttered
+composition, bright daylight, oversaturated colors, low quality, blurry
+
+---------------------------------------------------------------------
+7. FILE: byz-imagecompression.webp  —  "Byz-ImageCompression"
+---------------------------------------------------------------------
+Prompt:
+A large photographic image dissolving into a pixel mosaic, its pixels
+streaming inward and compacting into a small dense golden block, with
+concentric shrinking arrows suggesting proportional downscaling and a
+delicate balance scale hovering beside the two states. Dark minimal
+tech-art illustration, near-black background #0b0b0c, deep slate
+surfaces #131315, warm golden-amber accent #d2a24f with soft glow,
+high contrast, clean modern composition with generous negative space,
+cinematic rim light, subtle film grain, no text, no letters, no
+watermark, no logo.
+
+Negative: text, letters, words, watermark, logo, signature, cluttered
+composition, bright daylight, oversaturated colors, low quality, blurry
+
+---------------------------------------------------------------------
+8. FILE: automated-mails-byz.webp  —  "Automated-Mails-Byz"
+---------------------------------------------------------------------
+Prompt:
+A stream of sealed envelopes with golden wax seals flying along a
+curved glowing path that starts at an open template page, one envelope
+unfolding mid-air into a letter with faint Greek-like glyphs, and a
+small mail drop box waiting at the end of the path. Dark minimal
+tech-art illustration, near-black background #0b0b0c, deep slate
+surfaces #131315, warm golden-amber accent #d2a24f with soft glow,
+high contrast, clean modern composition with generous negative space,
+cinematic rim light, subtle film grain, no text, no letters, no
+watermark, no logo.
+
+Negative: text, letters, words, watermark, logo, signature, cluttered
+composition, bright daylight, oversaturated colors, low quality, blurry
+
+---------------------------------------------------------------------
+9. FILE: byzantine-music-text-editor.webp  —  "Byzantine Music Text
+   Editor"
+---------------------------------------------------------------------
+Prompt:
+An on-screen grid keyboard of ornate Byzantine neume symbols floating
+above an open document page, glyphs drifting down from the keys and
+aligning into neat rows of chant notation on the page, a glowing
+cursor line weaving between them, and the soft ambient light of a word
+processor interface around the edges. Dark minimal tech-art
+illustration, near-black background #0b0b0c, deep slate surfaces
+#131315, warm golden-amber accent #d2a24f with soft glow, high
+contrast, clean modern composition with generous negative space,
+cinematic rim light, subtle film grain, no text, no letters, no
+watermark, no logo.
+
+Negative: text, letters, words, watermark, logo, signature, cluttered
+composition, bright daylight, oversaturated colors, low quality, blurry
+
+---------------------------------------------------------------------
+10. FILE: protein-active-site.webp  —  "Protein Active Site
+    Classification"
+---------------------------------------------------------------------
+Prompt:
+A translucent three-dimensional protein ribbon structure floating in
+dark space, a small cluster of residues at its heart glowing warm gold
+as the active site, radius spheres and small feature points orbiting
+the structure, and fine measurement lines radiating outward from the
+highlighted region. Dark minimal tech-art illustration, near-black
+background #0b0b0c, deep slate surfaces #131315, warm golden-amber
+accent #d2a24f with soft glow, high contrast, clean modern composition
+with generous negative space, cinematic rim light, subtle film grain,
+no text, no letters, no watermark, no logo.
+
+Negative: text, letters, words, watermark, logo, signature, cluttered
+composition, bright daylight, oversaturated colors, low quality, blurry
+
+---------------------------------------------------------------------
+11. FILE: deeplearning-cnns.webp  —  "Deep Learning — CNN
+    Architectures"
+---------------------------------------------------------------------
+Prompt:
+A monochrome chest X-ray seen through a stack of translucent
+convolutional layers, feature maps glowing as patterns filter through
+each layer, five parallel network paths converging into a single
+output, and a discreet GPU chip with glowing memory bars below. Dark
+minimal tech-art illustration, near-black background #0b0b0c, deep
+slate surfaces #131315, warm golden-amber accent #d2a24f with soft
+glow, high contrast, clean modern composition with generous negative
+space, cinematic rim light, subtle film grain, no text, no letters, no
+watermark, no logo.
+
+Negative: text, letters, words, watermark, logo, signature, cluttered
+composition, bright daylight, oversaturated colors, low quality, blurry
+
+---------------------------------------------------------------------
+12. FILE: deepwalk.webp  —  "DeepWalk from Scratch"
+---------------------------------------------------------------------
+Prompt:
+A small social-network graph of connected nodes floating in dark
+space, a glowing path wandering randomly from node to node like a
+walk, the nodes then drifting apart into two clean clusters, and a
+faint two-dimensional projection plane beneath them. Dark minimal
+tech-art illustration, near-black background #0b0b0c, deep slate
+surfaces #131315, warm golden-amber accent #d2a24f with soft glow,
+high contrast, clean modern composition with generous negative space,
+cinematic rim light, subtle film grain, no text, no letters, no
+watermark, no logo.
+
+Negative: text, letters, words, watermark, logo, signature, cluttered
+composition, bright daylight, oversaturated colors, low quality, blurry
+
+---------------------------------------------------------------------
+13. FILE: datamining-bankruptcy.webp  —  "Bankruptcy Prediction
+    Pipeline"
+---------------------------------------------------------------------
+Prompt:
+Two imbalanced clusters of glowing dots separated by a smooth golden
+decision boundary, a balance scale re-equilibrating the clusters, a
+ranked bar chart beside them with the top feature highlighted in warm
+gold, and a faint spreadsheet-like grid in the background. Dark
+minimal tech-art illustration, near-black background #0b0b0c, deep
+slate surfaces #131315, warm golden-amber accent #d2a24f with soft
+glow, high contrast, clean modern composition with generous negative
+space, cinematic rim light, subtle film grain, no text, no letters, no
+watermark, no logo.
+
+Negative: text, letters, words, watermark, logo, signature, cluttered
+composition, bright daylight, oversaturated colors, low quality, blurry
+
+---------------------------------------------------------------------
+14. FILE: instructgpt-local-llms.webp  —  "Local LLM Experiments"
+---------------------------------------------------------------------
+Prompt:
+A compact layered cube of a quantized language model glowing inside an
+open laptop, several alternative answer threads branching outward from
+it with different glow intensities, abstract Greek and English glyph
+shapes meeting in the middle, and a small temperature dial hovering
+nearby. Dark minimal tech-art illustration, near-black background
+#0b0b0c, deep slate surfaces #131315, warm golden-amber accent #d2a24f
+with soft glow, high contrast, clean modern composition with generous
+negative space, cinematic rim light, subtle film grain, no text, no
+letters, no watermark, no logo.
+
+Negative: text, letters, words, watermark, logo, signature, cluttered
+composition, bright daylight, oversaturated colors, low quality, blurry
+
+---------------------------------------------------------------------
+15. FILE: alan-compiler.webp  —  "Alan Compiler" (featured)
+---------------------------------------------------------------------
+Prompt:
+A stream of abstract source-token marks flowing through a pipeline of
+three transformation chambers — a gear, an elegant abstract syntax
+tree, a circuit — and emerging at the end as luminous bytecode chips
+stacking into a small orderly cube, precise and mechanical. Dark
+minimal tech-art illustration, near-black background #0b0b0c, deep
+slate surfaces #131315, warm golden-amber accent #d2a24f with soft
+glow, high contrast, clean modern composition with generous negative
+space, cinematic rim light, subtle film grain, no text, no letters, no
+watermark, no logo.
+
+Negative: text, letters, words, watermark, logo, signature, cluttered
+composition, bright daylight, oversaturated colors, low quality, blurry
+
+---------------------------------------------------------------------
+16. FILE: keyboard-navigator.webp  —  "KeyboardNavigator"
+---------------------------------------------------------------------
+Prompt:
+A dark-mode browser window whose interactive elements are tagged with
+small glowing keycap badges showing abstract two-character combos, a
+hand hovering over a keyboard with the letter and number key groups
+softly lit, and thin connection lines running from keys to badges.
+Dark minimal tech-art illustration, near-black background #0b0b0c,
+deep slate surfaces #131315, warm golden-amber accent #d2a24f with
+soft glow, high contrast, clean modern composition with generous
+negative space, cinematic rim light, subtle film grain, no text, no
+letters, no watermark, no logo.
+
+Negative: text, letters, words, watermark, logo, signature, cluttered
+composition, bright daylight, oversaturated colors, low quality, blurry
+
+---------------------------------------------------------------------
+17. FILE: google-drive-auto-backup.webp  —  "Google Drive Auto
+    Backup" (featured)
+---------------------------------------------------------------------
+Prompt:
+A holographic folder tree mirrored between a desktop computer and a
+distant cloud, only a few changed branches flowing across the glowing
+connection, a circular progress ring with a subtle clock motif
+hovering above, and a neat stack of untouched file drawers in the
+shadows. Dark minimal tech-art illustration, near-black background
+#0b0b0c, deep slate surfaces #131315, warm golden-amber accent #d2a24f
+with soft glow, high contrast, clean modern composition with generous
+negative space, cinematic rim light, subtle film grain, no text, no
+letters, no watermark, no logo.
+
+Negative: text, letters, words, watermark, logo, signature, cluttered
+composition, bright daylight, oversaturated colors, low quality, blurry
+
+---------------------------------------------------------------------
+18. FILE: e-calculator.webp  —  "E-Calculator" (featured)
+---------------------------------------------------------------------
+Prompt:
+An elegant spiral of abstract digit-like marks unraveling from a
+single glowing golden point, the spiral splitting into parallel
+branches that rejoin, each branch a thin thread connected to a
+multi-core processor chip below, with the mathematical curve of a
+logarithmic spiral traced in fine golden lines. Dark minimal tech-art
+illustration, near-black background #0b0b0c, deep slate surfaces
+#131315, warm golden-amber accent #d2a24f with soft glow, high
+contrast, clean modern composition with generous negative space,
+cinematic rim light, subtle film grain, no text, no letters, no
+watermark, no logo.
+
+Negative: text, letters, words, watermark, logo, signature, cluttered
+composition, bright daylight, oversaturated colors, low quality, blurry
+
+---------------------------------------------------------------------
+19. FILE: firecast-lam.webp  —  "FireCastNet — Local Area Modeling"
+    (featured)  [allows muted ember-orange]
+---------------------------------------------------------------------
+Prompt:
+A regional terrain mesh of an icosphere wireframe wrapped around part
+of a dark globe, one region highlighted, warm ember gradients
+spreading across the mesh like wildfire risk, graph nodes connected by
+thin glowing edges, and subtle topographic contour lines beneath.
+Dark minimal tech-art illustration, near-black background #0b0b0c,
+deep slate surfaces #131315, warm golden-amber accent #d2a24f with
+muted ember-orange highlights, soft glow, high contrast, clean modern
+composition with generous negative space, cinematic rim light, subtle
+film grain, no text, no letters, no watermark, no logo.
+
+Negative: text, letters, words, watermark, logo, signature, cluttered
+composition, bright daylight, oversaturated colors, low quality, blurry
+
+---------------------------------------------------------------------
+20. FILE: dtst-stack.webp  —  "DTST — Tax Declaration System"
+---------------------------------------------------------------------
+Prompt:
+A vertical three-tier stack — database cylinders, a server cube, a
+sleek dashboard panel — connected by a glowing conveyor-like CI
+pipeline, a sealed vault with a key standing for secrets, faint
+classical Greek column lines framing the scene, and shipping
+containers resting at the base. Dark minimal tech-art illustration,
+near-black background #0b0b0c, deep slate surfaces #131315, warm
+golden-amber accent #d2a24f with soft glow, high contrast, clean
+modern composition with generous negative space, cinematic rim light,
+subtle film grain, no text, no letters, no watermark, no logo.
+
+Negative: text, letters, words, watermark, logo, signature, cluttered
+composition, bright daylight, oversaturated colors, low quality, blurry
+
+=====================================================================
+  BLOG POSTS
+=====================================================================
+
+---------------------------------------------------------------------
+21. FILE: alan-compiler-jvm-bytecode.webp  —  "From lexer to JVM
+    bytecode" (blog post)
+---------------------------------------------------------------------
+Prompt:
+A code manuscript descending through three glowing stages — a stream
+of abstract tokens, an elegant abstract syntax tree, a circuit board —
+before being stamped into a small cube of bytecode chips, with a
+single golden seal of approval hovering above the finished cube,
+precise engraving aesthetic. Dark minimal tech-art illustration,
+near-black background #0b0b0c, deep slate surfaces #131315, warm
+golden-amber accent #d2a24f with soft glow, high contrast, clean
+modern composition with generous negative space, cinematic rim light,
+subtle film grain, no text, no letters, no watermark, no logo.
+
+Negative: text, letters, words, watermark, logo, signature, cluttered
+composition, bright daylight, oversaturated colors, low quality, blurry
+
+---------------------------------------------------------------------
+22. FILE: isokratis-web-audio-drone.webp  —  "A drone engine for
+    Byzantine chant" (blog post)
+---------------------------------------------------------------------
+Prompt:
+A horizontal chain of connected audio nodes — an oscillator, a filter,
+an equalizer, a gain stage — with a smooth waveform passing through
+them, the waveform's pitch tied to an arc of 72 fine moria division
+marks, one steady golden drone tone line beneath the chain, and a
+headphones silhouette waiting at the far end. Dark minimal tech-art
+illustration, near-black background #0b0b0c, deep slate surfaces
+#131315, warm golden-amber accent #d2a24f with soft glow, high
+contrast, clean modern composition with generous negative space,
+cinematic rim light, subtle film grain, no text, no letters, no
+watermark, no logo.
+
+Negative: text, letters, words, watermark, logo, signature, cluttered
+composition, bright daylight, oversaturated colors, low quality, blurry
+
+=====================================================================
+  PLATFORM FLAGS (optional)
+=====================================================================
+- Midjourney: append  --ar 16:9 --style raw --v 7
+- DALL-E 3 / GPT image: request 1792x1024 (wide) and paste the prompt
+  as-is.
+- Flux / Ideogram: the prompt text works directly; add the platform's
+  aspect-ratio control to 16:9 or wider.

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import ExternalLinkIcon from '../../components/ExternalLinkIcon.astro';
 import { LOCALES, t, type Locale } from '../../lib/i18n';
 
 export function getStaticPaths() {
@@ -16,8 +17,8 @@ const path = `/${locale}/contact`;
   locale={locale}
   path={path}
 >
-  <h1 class="text-4xl font-bold tracking-tight mb-8">{t(locale, 'contact.title')}</h1>
-  <p class="text-ink-dim leading-relaxed mb-10 max-w-2xl">
+  <h1 class="text-4xl font-bold tracking-tight mb-8" data-reveal>{t(locale, 'contact.title')}</h1>
+  <p class="text-ink-dim leading-relaxed mb-10 max-w-2xl" data-reveal>
     {
       locale === 'en'
         ? 'If you would like to discuss a project, collaboration or an opportunity, I can be reached directly by email.'
@@ -25,17 +26,29 @@ const path = `/${locale}/contact`;
     }
   </p>
 
-  <div class="border border-line bg-surface rounded-lg divide-y divide-line">
-    <div class="flex items-center justify-between p-5">
-      <span class="font-mono text-xs uppercase tracking-widest text-ink-faint">Email</span>
-      <a href="mailto:koxafis@gmail.com" class="no-underline text-ink hover:text-accent-strong">
-        koxafis@gmail.com
-      </a>
+  <div class="border border-line bg-surface rounded-lg divide-y divide-line" data-reveal>
+    <div class="flex items-center justify-between gap-4 p-5">
+      <div class="min-w-0">
+        <span class="block font-mono text-xs uppercase tracking-widest text-ink-faint mb-1">Email</span>
+        <a href="mailto:koxafis@gmail.com" class="no-underline text-ink hover:text-accent-strong break-all">
+          koxafis@gmail.com
+        </a>
+      </div>
+      <button
+        type="button"
+        data-copy="koxafis@gmail.com"
+        data-copy-label={t(locale, 'contact.copy')}
+        data-copy-copied={t(locale, 'contact.copied')}
+        class="shrink-0 font-mono text-xs uppercase tracking-widest text-ink-dim hover:text-accent border border-line hover:border-accent/50 rounded px-2.5 py-1.5 transition-colors"
+      >
+        {t(locale, 'contact.copy')}
+      </button>
     </div>
     <div class="flex items-center justify-between p-5">
       <span class="font-mono text-xs uppercase tracking-widest text-ink-faint">GitHub</span>
-      <a href="https://github.com/Kostas-Xafis" target="_blank" rel="noopener noreferrer" class="no-underline text-ink hover:text-accent-strong">
-        github.com/Kostas-Xafis ↗
+      <a href="https://github.com/Kostas-Xafis" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 no-underline text-ink hover:text-accent-strong">
+        github.com/Kostas-Xafis
+        <ExternalLinkIcon size={15} />
       </a>
     </div>
     <div class="flex items-center justify-between p-5">
@@ -46,3 +59,9 @@ const path = `/${locale}/contact`;
     </div>
   </div>
 </BaseLayout>
+
+<script>
+  import { initCopyButtons } from '../../scripts/copy';
+
+  initCopyButtons();
+</script>

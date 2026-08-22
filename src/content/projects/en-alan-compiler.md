@@ -30,7 +30,7 @@ The delivery includes Maven build scripts and shell tools for syntax check, sema
 
 ## Technical highlights
 
-- Complete pipeline: lexer → parser → typed AST → JVM bytecode, nothing stubbed
+- Complete pipeline: lexer, parser, typed AST and JVM bytecode, nothing stubbed
 - Direct bytecode emission via ASM — no source-level round trip
 - Symbol tables, type checking and runtime library for a full language
 

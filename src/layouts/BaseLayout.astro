@@ -5,6 +5,9 @@ import { ClientRouter } from 'astro:transitions';
 import { SITE } from '../lib/site';
 import { t, type Locale } from '../lib/i18n';
 import '../styles/global.css';
+import '@fontsource-variable/ibm-plex-sans/wght.css';
+import '@fontsource-variable/ibm-plex-sans/wght-italic.css';
+import '@fontsource-variable/jetbrains-mono/wght.css';
 
 interface Props {
   title: string;
@@ -18,7 +21,7 @@ const siteTitle = t(locale, 'name');
 const fullTitle = title === siteTitle ? siteTitle : `${title} — ${siteTitle}`;
 const canonical = `${SITE}${path}`;
 const alternateLocale: Locale = locale === 'en' ? 'el' : 'en';
-const alternatePath = path.replace(/^\/(en|el)/, `/${alternateLocale}`);
+const beaconToken = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
 ---
 
 <!doctype html>
@@ -59,14 +62,95 @@ const alternatePath = path.replace(/^\/(en|el)/, `/${alternateLocale}`);
       )
     }
     <meta name="generator" content={Astro.generator} />
+    {beaconToken && (
+      <script
+        defer
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon={JSON.stringify({ token: beaconToken })}
+      ></script>
+    )}
     <script is:inline>document.documentElement.classList.add('js');</script>
     <ClientRouter />
   </head>
   <body data-path={path} class="min-h-screen flex flex-col bg-bg">
+    <a href="#main" class="skip-link">{t(locale, 'skip.content')}</a>
     <Header locale={locale} path={path} />
-    <main class="flex-1 w-full max-w-5xl mx-auto px-5 sm:px-8 py-12 sm:py-16">
+    <main id="main" tabindex="-1" class="flex-1 w-full max-w-5xl mx-auto px-5 sm:px-8 py-6 sm:py-10">
       <slot />
     </main>
     <Footer locale={locale} />
+    <button
+      id="scroll-top"
+      type="button"
+      aria-label={t(locale, 'scroll.top')}
+      aria-hidden="true"
+      tabindex="-1"
+      class="fixed bottom-6 right-6 z-40 w-10 h-10 rounded-full border border-line bg-surface-2/80 backdrop-blur text-ink-dim hover:text-accent hover:border-accent/50 transition-opacity duration-300 opacity-0 pointer-events-none"
+    >
+      ↑
+    </button>
   </body>
 </html>
+
+<script>
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let observer: IntersectionObserver | null = null;
+  if ('IntersectionObserver' in window && !reducedMotion) {
+    observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-revealed');
+            observer!.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
+    );
+  }
+  function revealScan() {
+    document.querySelectorAll<HTMLElement>('[data-reveal]:not(.is-revealed)').forEach((el) => {
+      if (observer) observer.observe(el);
+      else el.classList.add('is-revealed');
+    });
+  }
+  revealScan();
+  document.addEventListener('astro:page-load', revealScan);
+
+  // Direction-aware page transitions: tag the outgoing document so the
+  // view-transition CSS can animate main in/out depending on the direction.
+  document.addEventListener('astro:before-swap', (event) => {
+    const direction = (event as unknown as { direction?: string }).direction;
+    const back = direction === 'back';
+    document.documentElement.classList.toggle('astro-dir-back', back);
+    document.documentElement.classList.toggle('astro-dir-forward', !back);
+  });
+  document.addEventListener('astro:after-swap', () => {
+    document.documentElement.classList.remove('astro-dir-back', 'astro-dir-forward');
+  });
+
+  // Scroll-to-top button
+  function updateScrollTop() {
+    const btn = document.getElementById('scroll-top');
+    if (!btn) return;
+    const show = window.scrollY > 480;
+    btn.classList.toggle('opacity-0', !show);
+    btn.classList.toggle('pointer-events-none', !show);
+    if (show) {
+      btn.removeAttribute('aria-hidden');
+      btn.tabIndex = 0;
+    } else {
+      btn.setAttribute('aria-hidden', 'true');
+      btn.tabIndex = -1;
+    }
+  }
+  window.addEventListener('scroll', updateScrollTop, { passive: true });
+  document.addEventListener('astro:page-load', updateScrollTop);
+  document.addEventListener('click', (event) => {
+    const target = event.target as HTMLElement | null;
+    if (!target?.closest('#scroll-top')) return;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
+  });
+  updateScrollTop();
+</script>

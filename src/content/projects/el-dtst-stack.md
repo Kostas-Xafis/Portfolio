@@ -20,7 +20,7 @@ links:
 
 Το backend (`Dtst-2`) είναι Spring Boot 3 με Spring Security και JWT (`AuthTokenFilter`, `JwtUtils`, `AuthEntryPointJwt`), endpoints `@Secured` βάσει ρόλων, Spring Data JPA πάνω από PostgreSQL, κρυπτογράφηση BCrypt και τεκμηρίωση Swagger. Το frontend (`DtstProjectFrontend`) είναι React 18 + Vite + TypeScript dashboard με CSS modules και route guards.
 
-Η ανάπτυξη αντιμετωπίζεται ως πρώτης τάξεως ζήτημα: multi-stage Docker build (Node 20 → nginx reverse proxy του `/api` στο backend), και σύνολο playbooks Ansible (`ansible-devops`) που προμηθεύει τη στοίβα τριών επιπέδων σε VMs του Google Cloud — Postgres, Spring, frontend — με κρυπτογραφημένα μυστικά (vault), Jinja templates για nginx και systemd, συν διαδρομή ανάπτυξης με docker-compose. Τα pipelines Jenkins οδηγούν τα builds και πυροδοτούν τις εργασίες Ansible.
+Η ανάπτυξη αντιμετωπίζεται ως πρώτης τάξεως ζήτημα: multi-stage Docker build (Node 20 με nginx reverse proxy του `/api` στο backend), και σύνολο playbooks Ansible (`ansible-devops`) που προμηθεύει τη στοίβα τριών επιπέδων σε VMs του Google Cloud — Postgres, Spring, frontend — με κρυπτογραφημένα μυστικά (vault), Jinja templates για nginx και systemd, συν διαδρομή ανάπτυξης με docker-compose. Τα pipelines Jenkins οδηγούν τα builds και πυροδοτούν τις εργασίες Ansible.
 
 ## Τεχνικά highlights
 

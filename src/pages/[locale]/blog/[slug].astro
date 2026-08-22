@@ -1,9 +1,14 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import JsonLd from '../../../components/JsonLd.astro';
 import { getCollection, render } from 'astro:content';
 import { LOCALES, formatDate, pairTranslation, t, type BlogEntry, type Locale } from '../../../lib/i18n';
 import { hasTechIcon } from '../../../lib/techIcons';
 import TechIcon from '../../../components/TechIcon.astro';
+import ArrowLeftIcon from '../../../components/ArrowLeftIcon.astro';
+import ArrowRightIcon from '../../../components/ArrowRightIcon.astro';
+import CoverImage from '../../../components/CoverImage.astro';
+import { SITE } from '../../../lib/site';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -25,6 +30,24 @@ const { Content } = await render(entry);
 
 const path = `/${locale}/blog/${data.slug}`;
 const readingTime = Math.max(1, Math.ceil((entry.body ?? '').length / 1800));
+
+const postSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: data.title,
+  description: data.description,
+  datePublished: data.date.toISOString(),
+  dateModified: data.date.toISOString(),
+  inLanguage: locale === 'el' ? 'el-GR' : 'en-GB',
+  url: `${SITE}${path}`,
+  mainEntityOfPage: `${SITE}${path}`,
+  author: {
+    '@type': 'Person',
+    '@id': `${SITE}/#person`,
+    name: t(locale, 'name'),
+    url: `${SITE}/${locale}`,
+  },
+};
 ---
 
 <BaseLayout
@@ -33,6 +56,8 @@ const readingTime = Math.max(1, Math.ceil((entry.body ?? '').length / 1800));
   locale={locale}
   path={path}
 >
+  <JsonLd data={postSchema} />
+
   <div
     id="reading-progress"
     aria-hidden="true"
@@ -41,10 +66,24 @@ const readingTime = Math.max(1, Math.ceil((entry.body ?? '').length / 1800));
   ></div>
 
   <nav class="font-mono text-xs text-ink-faint mb-8">
-    <a href={`/${locale}/blog`} class="no-underline hover:text-accent">← {t(locale, 'nav.blog')}</a>
+    <a href={`/${locale}/blog`} class="inline-flex items-center gap-1.5 no-underline hover:text-accent">
+      <ArrowLeftIcon size={12} />
+      {t(locale, 'nav.blog')}
+    </a>
   </nav>
 
-  <header class="mb-8">
+  <div data-reveal class="mb-8">
+    <CoverImage
+      cover={data.cover}
+      alt={data.title}
+      label={data.tags[0]}
+      iconTag={data.tags.find((tag) => hasTechIcon(tag))}
+      aspect="wide"
+      class="rounded-lg border border-line"
+    />
+  </div>
+
+  <header class="mb-8" data-reveal>
     <div class="flex flex-wrap items-center gap-3 font-mono text-[11px] uppercase tracking-widest text-ink-faint mb-3">
       <time datetime={data.date.toISOString()}>{formatDate(locale, data.date)}</time>
       <span aria-hidden="true">·</span>
@@ -68,15 +107,27 @@ const readingTime = Math.max(1, Math.ceil((entry.body ?? '').length / 1800));
     <Content />
   </article>
 
-  <footer class="mt-12 border-t border-line pt-6 font-mono text-xs text-ink-faint">
-    {translation ? (
-      <a
-        href={`/${translation.data.lang}/blog/${translation.data.slug}`}
-        class="no-underline hover:text-accent"
-      >
-        {translation.data.lang === 'el' ? 'Διαβάστε στα ελληνικά' : 'Read in English'} →
-      </a>
-    ) : null}
+  <footer class="mt-12 border-t border-line pt-6 font-mono text-xs text-ink-faint flex items-center justify-between gap-4 flex-wrap">
+    <div>
+      {translation ? (
+        <a
+          href={`/${translation.data.lang}/blog/${translation.data.slug}`}
+          class="inline-flex items-center gap-1.5 no-underline hover:text-accent"
+        >
+          {translation.data.lang === 'el' ? 'Διαβάστε στα ελληνικά' : 'Read in English'}
+          <ArrowRightIcon size={12} />
+        </a>
+      ) : null}
+    </div>
+    <button
+      type="button"
+      data-copy={`${SITE}${path}`}
+      data-copy-label={t(locale, 'post.copy-link')}
+      data-copy-copied={t(locale, 'contact.copied')}
+      class="no-underline text-ink-dim hover:text-accent border border-line hover:border-accent/50 rounded px-2.5 py-1.5 uppercase tracking-widest transition-colors"
+    >
+      {t(locale, 'post.copy-link')}
+    </button>
   </footer>
 </BaseLayout>
 
@@ -92,4 +143,10 @@ const readingTime = Math.max(1, Math.ceil((entry.body ?? '').length / 1800));
   window.addEventListener('resize', updateProgress);
   document.addEventListener('astro:page-load', updateProgress);
   updateProgress();
+</script>
+
+<script>
+  import { initCopyButtons } from '../../../scripts/copy';
+
+  initCopyButtons();
 </script>

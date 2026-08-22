@@ -22,8 +22,10 @@ const posts = (await getCollection('blog'))
   locale={locale}
   path={path}
 >
-  <h1 class="text-4xl font-bold tracking-tight mb-3">{t(locale, 'blog.title')}</h1>
-  <p class="text-lg text-ink-dim mb-10">{t(locale, 'blog.subtitle')}</p>
+  <header data-reveal>
+    <h1 class="text-4xl font-bold tracking-tight mb-3">{t(locale, 'blog.title')}</h1>
+    <p class="text-lg text-ink-dim mb-10">{t(locale, 'blog.subtitle')}</p>
+  </header>
   <div class="grid gap-4">
     {posts.map((entry) => <PostCard entry={entry} locale={locale} />)}
   </div>

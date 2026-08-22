@@ -1,9 +1,13 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import ProjectCard from '../../components/ProjectCard.astro';
-import PostCard from '../../components/PostCard.astro';
 import { getCollection } from 'astro:content';
+import ArrowRightIcon from '../../components/ArrowRightIcon.astro';
+import ExternalLinkIcon from '../../components/ExternalLinkIcon.astro';
+import JsonLd from '../../components/JsonLd.astro';
+import PostCard from '../../components/PostCard.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 import { LOCALES, t, type Locale } from '../../lib/i18n';
+import { SITE } from '../../lib/site';
 
 export function getStaticPaths() {
   return LOCALES.map((locale) => ({ params: { locale } }));
@@ -20,6 +24,22 @@ const posts = (await getCollection('blog'))
   .filter((p) => p.data.lang === locale && !p.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 3);
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': `${SITE}/#person`,
+  name: t(locale, 'name'),
+  url: `${SITE}${path}`,
+  jobTitle: t(locale, 'hero.greeting'),
+  email: 'mailto:koxafis@gmail.com',
+  sameAs: ['https://github.com/Kostas-Xafis'],
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: locale === 'en' ? 'Attica, Greece' : 'Αττική, Ελλάδα',
+    addressCountry: 'GR',
+  },
+};
 ---
 
 <BaseLayout
@@ -30,10 +50,25 @@ const posts = (await getCollection('blog'))
   locale={locale}
   path={path}
 >
-  <section class="mb-16">
+  <JsonLd data={personSchema} />
+
+  <section class="mb-16" data-reveal>
     <h1 class="text-5xl sm:text-6xl font-bold tracking-tight mb-3">{t(locale, 'name')}</h1>
     <p class="text-xl text-ink-dim mb-6">
-      {t(locale, 'hero.greeting')} — {t(locale, 'hero.location')}
+      <span
+        data-typewriter
+        data-words={JSON.stringify(
+          locale === 'en'
+            ? ['Software Engineer', 'Machine Learning', 'Compilers', 'Systems Software', 'Byzantine Music']
+            : ['Μηχανικός Λογισμικού', 'Μηχανική Μάθηση', 'Compilers', 'Λογισμικό Συστημάτων', 'Βυζαντινή Μουσική'],
+        )}
+        aria-hidden="true"
+      >
+        {t(locale, 'hero.greeting')}
+      </span>
+      <span class="sr-only">{t(locale, 'hero.greeting')} — {t(locale, 'hero.location')}</span>
+      {' — '}
+      {t(locale, 'hero.location')}
     </p>
     <p class="text-ink-dim leading-relaxed max-w-2xl">
       {
@@ -60,23 +95,26 @@ const posts = (await getCollection('blog'))
       }
     </p>
     <div class="flex flex-wrap gap-4 mt-6 text-sm">
-      <a href={`/${locale}/projects`} class="no-underline border border-accent/40 rounded px-4 py-2 hover:border-accent-strong">
-        {t(locale, 'nav.projects')} →
+      <a href={`/${locale}/projects`} class="inline-flex items-center gap-2 no-underline border border-accent/40 rounded px-4 py-2 hover:border-accent-strong">
+        {t(locale, 'nav.projects')}
+        <ArrowRightIcon size={11} />
       </a>
       <a href={`/${locale}/about`} class="no-underline text-ink-dim hover:text-ink border border-line rounded px-4 py-2">
         {t(locale, 'home.about.cta')}
       </a>
-      <a href="https://github.com/Kostas-Xafis" target="_blank" rel="noopener noreferrer" class="no-underline text-ink-dim hover:text-ink border border-line rounded px-4 py-2">
-        GitHub ↗
+      <a href="https://github.com/Kostas-Xafis" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 no-underline text-ink-dim hover:text-ink border border-line rounded px-4 py-2">
+        GitHub
+        <ExternalLinkIcon size={15} />
       </a>
     </div>
   </section>
 
-  <section class="mb-16">
+  <section class="mb-16" data-reveal>
     <div class="flex items-baseline justify-between mb-5">
       <h2 class="text-xl font-semibold tracking-tight">{t(locale, 'home.featured')}</h2>
-      <a href={`/${locale}/projects`} class="font-mono text-xs uppercase tracking-widest">
-        {t(locale, 'home.featured.more')} →
+      <a href={`/${locale}/projects`} class="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-widest">
+        {t(locale, 'home.featured.more')}
+        <ArrowRightIcon size={11} />
       </a>
     </div>
     <div class="grid gap-4 sm:grid-cols-2">
@@ -84,11 +122,12 @@ const posts = (await getCollection('blog'))
     </div>
   </section>
 
-  <section>
+  <section data-reveal>
     <div class="flex items-baseline justify-between mb-5">
       <h2 class="text-xl font-semibold tracking-tight">{t(locale, 'home.blog')}</h2>
-      <a href={`/${locale}/blog`} class="font-mono text-xs uppercase tracking-widest">
-        {t(locale, 'home.blog.more')} →
+      <a href={`/${locale}/blog`} class="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-widest">
+        {t(locale, 'home.blog.more')}
+        <ArrowRightIcon size={11} />
       </a>
     </div>
     <div class="grid gap-4">
@@ -96,3 +135,64 @@ const posts = (await getCollection('blog'))
     </div>
   </section>
 </BaseLayout>
+
+<script>
+  let typeTimer = 0;
+
+  function runTypewriter() {
+    window.clearTimeout(typeTimer);
+    const el = document.querySelector<HTMLElement>('[data-typewriter]');
+    if (!el) return;
+    const target = el;
+
+    let words: string[] = [];
+    try {
+      words = JSON.parse(target.dataset.words ?? '[]') as string[];
+    } catch {
+      words = [];
+    }
+    if (words.length < 2) return;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      target.textContent = words[0] ?? '';
+      return;
+    }
+
+    let wi = 0;
+    const first = words[0] ?? '';
+    let ci = first.length;
+    let phase: 'wait' | 'del' | 'type' = 'wait';
+    target.textContent = first;
+
+    const HOLD_MS = 5000; // each word stays fully visible for at least 5 seconds
+    const TYPE_MS = 75; // per character while typing
+    const DEL_MS = 45; // per character while deleting
+
+    function tick() {
+      if (phase === 'wait') {
+        phase = 'del';
+        typeTimer = window.setTimeout(tick, HOLD_MS);
+        return;
+      }
+      if (phase === 'del') {
+        ci -= 1;
+        if (ci <= 0) {
+          ci = 0;
+          wi = (wi + 1) % words.length;
+          phase = 'type';
+        }
+        typeTimer = window.setTimeout(tick, DEL_MS);
+      } else {
+        ci += 1;
+        if (ci >= (words[wi] ?? '').length) phase = 'wait';
+        typeTimer = window.setTimeout(tick, TYPE_MS);
+      }
+      target.textContent = (words[wi] ?? '').slice(0, ci);
+    }
+
+    typeTimer = window.setTimeout(tick, HOLD_MS);
+  }
+
+  runTypewriter();
+  document.addEventListener('astro:page-load', runTypewriter);
+</script>

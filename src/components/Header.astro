@@ -70,6 +70,7 @@ const alternateHref = switchLocalePath(path, alternateLocale);
       class="sm:hidden flex flex-col justify-center items-center w-9 h-9 gap-1.5 text-ink-dim"
       aria-label={t(locale, 'nav.menu')}
       aria-expanded="false"
+      aria-controls="nav-mobile"
     >
       <span class="block w-5 h-px bg-current"></span>
       <span class="block w-5 h-px bg-current"></span>
@@ -165,6 +166,33 @@ const alternateHref = switchLocalePath(path, alternateLocale);
       toggle.setAttribute('aria-expanded', String(!open));
     });
   }
+
+  // Close the mobile menu with Escape and return focus to the toggle.
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+    const openMenu = document.getElementById('nav-mobile');
+    const menuToggle = document.getElementById('nav-toggle');
+    if (openMenu && !openMenu.classList.contains('hidden')) {
+      openMenu.classList.add('hidden');
+      menuToggle?.setAttribute('aria-expanded', 'false');
+      menuToggle?.focus();
+    }
+  });
+
+  // Remember the chosen locale when the user switches language, so the
+  // root "/" redirect (middleware + client fallback) can respect it later.
+  document.addEventListener('click', (event) => {
+    const target = event.target as HTMLElement | null;
+    const link = target?.closest<HTMLAnchorElement>('[data-switch]');
+    if (!link) return;
+    const lang = link.href.startsWith(`${location.origin}/el`) ? 'el' : 'en';
+    try {
+      localStorage.setItem('preferred-locale', lang);
+      document.cookie = 'pref-locale=' + lang + '; path=/; max-age=31536000; SameSite=Lax';
+    } catch {
+      /* ignore storage failures */
+    }
+  });
 
   document.addEventListener('astro:page-load', updateHeader);
   updateHeader();

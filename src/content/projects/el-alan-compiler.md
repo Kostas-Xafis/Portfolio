@@ -30,7 +30,7 @@ links:
 
 ## Τεχνικά highlights
 
-- Πλήρες pipeline: lexer → parser → τυποποιημένο AST → JVM bytecode, χωρίς κενά
+- Πλήρες pipeline: lexer, parser, τυποποιημένο AST και JVM bytecode, χωρίς κενά
 - Άμεση εκπομπή bytecode μέσω ASM — χωρίς ενδιάμεσο πηγαίο κώδικα
 - Πίνακες συμβόλων, έλεγχος τύπων και βιβλιοθήκη χρόνου εκτέλεσης για πλήρη γλώσσα
 

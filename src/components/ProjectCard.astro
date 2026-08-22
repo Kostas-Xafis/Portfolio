@@ -5,6 +5,7 @@ import type { ProjectEntry } from '../lib/i18n';
 import { hasTechIcon } from '../lib/techIcons';
 import TechIcon from './TechIcon.astro';
 import StarIcon from './StarIcon.astro';
+import CoverImage from './CoverImage.astro';
 
 interface Props {
   entry: ProjectEntry;
@@ -19,37 +20,47 @@ const href = `/${locale}/projects/${data.slug}`;
 
 <a
   href={href}
+  data-reveal
   class:list={[
-    'group block no-underline border rounded-lg p-5 transition-colors duration-150 hover:border-accent/60',
+    'group block no-underline border rounded-lg overflow-hidden transition-colors duration-150 hover:border-accent/60',
     featured ? 'border-accent/25 bg-accent/[0.04]' : 'border-line bg-surface',
   ]}
 >
-  <div class="flex items-center justify-between gap-3 mb-2">
-    <h3 class="text-lg font-semibold text-ink group-hover:text-accent-strong transition-colors">
-      {data.title}
-    </h3>
-    {featured && (
-      <span class="flex items-center font-mono text-[10px] uppercase tracking-widest text-accent border border-accent/40 rounded px-1.5 py-1">
-        <StarIcon size={10} />
+  <CoverImage
+    cover={data.cover}
+    alt={data.title}
+    label={categoryLabel(locale, data.category)}
+    iconTag={data.stack.find((s) => hasTechIcon(s))}
+    class="border-b border-line"
+  />
+  <div class="p-5">
+    <div class="flex items-center justify-between gap-3 mb-2">
+      <h3 class="text-lg font-semibold text-ink group-hover:text-accent-strong transition-colors">
+        {data.title}
+      </h3>
+      {featured && (
+        <span class="flex items-center font-mono text-[10px] uppercase tracking-widest text-accent border border-accent/40 rounded px-1.5 py-1">
+          <StarIcon size={10} />
+        </span>
+      )}
+    </div>
+    <p class="text-base text-ink-dim leading-relaxed mb-4">{data.summary}</p>
+    <div class="flex items-center justify-between gap-3">
+      <span class="font-mono text-xs text-ink-faint">
+        {categoryLabel(locale, data.category)}
+        {' · '}
+        {statusLabel(locale, data.status)}
+        {' · '}
+        {data.year}
       </span>
-    )}
-  </div>
-  <p class="text-base text-ink-dim leading-relaxed mb-4">{data.summary}</p>
-  <div class="flex items-center justify-between gap-3">
-    <span class="font-mono text-xs text-ink-faint">
-      {categoryLabel(locale, data.category)}
-      {' · '}
-      {statusLabel(locale, data.status)}
-      {' · '}
-      {data.year}
-    </span>
-  </div>
-  <div class="flex flex-wrap gap-1.5 mt-3">
-    {data.stack.slice(0, 5).map((tech) => (
-      <span class="inline-flex items-center gap-1 font-mono text-xs text-ink-dim bg-surface-2 border border-line rounded px-1.5 py-0.5">
-        {hasTechIcon(tech) ? <TechIcon tag={tech} size={13} /> : null}
-        {tech}
-      </span>
-    ))}
+    </div>
+    <div class="flex flex-wrap gap-1.5 mt-3">
+      {data.stack.slice(0, 5).map((tech) => (
+        <span class="inline-flex items-center gap-1 font-mono text-xs text-ink-dim bg-surface-2 border border-line rounded px-1.5 py-0.5">
+          {hasTechIcon(tech) ? <TechIcon tag={tech} size={13} /> : null}
+          {tech}
+        </span>
+      ))}
+    </div>
   </div>
 </a>

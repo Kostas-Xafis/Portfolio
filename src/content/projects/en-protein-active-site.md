@@ -24,7 +24,7 @@ The classifier is a dense feed-forward Keras network trained on the stratified s
 
 ## Technical highlights
 
-- Real multi-stage data engineering: public bioinformatics APIs → structures → features
+- Real multi-stage data engineering: public bioinformatics APIs, structures and features
 - Parallel downloads via `ThreadPoolExecutor`
 - Structural feature engineering, including Shrake–Rupley accessibility
 - Imbalance-aware training with AUPRC evaluation
