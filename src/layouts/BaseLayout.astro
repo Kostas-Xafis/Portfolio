@@ -1,6 +1,7 @@
 ---
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import { SITE } from '../lib/site';
 import { t, type Locale } from '../lib/i18n';
 import '../styles/global.css';
 
@@ -14,7 +15,7 @@ interface Props {
 const { title, description, locale, path } = Astro.props;
 const siteTitle = t(locale, 'name');
 const fullTitle = title === siteTitle ? siteTitle : `${title} — ${siteTitle}`;
-const canonical = `https://kostas-portfolio.pages.dev${path}`;
+const canonical = `${SITE}${path}`;
 const alternateLocale: Locale = locale === 'en' ? 'el' : 'en';
 const alternatePath = path.replace(/^\/(en|el)/, `/${alternateLocale}`);
 ---
@@ -37,7 +38,7 @@ const alternatePath = path.replace(/^\/(en|el)/, `/${alternateLocale}`);
         />
       )
     }
-    <link rel="alternate" hreflang="x-default" href="https://kostas-portfolio.pages.dev/en" />
+    <link rel="alternate" hreflang="x-default" href={`${SITE}/en`} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={siteTitle} />
     <meta property="og:title" content={fullTitle} />
@@ -48,7 +49,7 @@ const alternatePath = path.replace(/^\/(en|el)/, `/${alternateLocale}`);
         <>
           <meta
             property="og:image"
-            content={`https://kostas-portfolio.pages.dev/og${/^\/(en|el)$/.test(path) ? `${path}/index` : path}.png`}
+            content={`${SITE}/og${/^\/(en|el)$/.test(path) ? `${path}/index` : path}.png`}
           />
           <meta property="og:image:width" content="1200" />
           <meta property="og:image:height" content="630" />

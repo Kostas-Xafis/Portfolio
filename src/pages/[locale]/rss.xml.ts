@@ -2,6 +2,7 @@ import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
 import type { APIRoute } from 'astro';
 import { LOCALES, type Locale } from '../../lib/i18n';
+import { SITE } from '../../lib/site';
 
 export function getStaticPaths() {
   return LOCALES.map((locale) => ({ params: { locale } }));
@@ -19,7 +20,7 @@ export const GET: APIRoute = async (context) => {
       locale === 'en'
         ? 'Technical write-ups on software engineering, Cloudflare, machine learning, compilers and systems.'
         : 'Τεχνικά άρθρα για μηχανική λογισμικού, Cloudflare, μηχανική μάθηση, compilers και συστήματα.',
-    site: context.site ?? 'https://portfolio.pages.dev',
+    site: context.site ?? SITE,
     items: posts.map((post) => ({
       title: post.data.title,
       description: post.data.description,

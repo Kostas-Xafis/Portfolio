@@ -1,4 +1,6 @@
 ---
+import { SITE } from '../lib/site';
+
 const target = '/en';
 ---
 
@@ -7,7 +9,7 @@ const target = '/en';
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="refresh" content={`0; url=${target}`} />
-    <link rel="canonical" href={`https://portfolio.pages.dev${target}`} />
+    <link rel="canonical" href={`${SITE}${target}`} />
     <title>Konstantinos Xafis — Software Engineer</title>
   </head>
   <body>
