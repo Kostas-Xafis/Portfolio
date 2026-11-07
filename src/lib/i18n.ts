@@ -5,8 +5,8 @@ export type Locale = (typeof LOCALES)[number];
 
 export const ui = {
   en: {
-    name: 'Konstantinos Xafis',
-    'name.logo': 'konstantinos.xafis',
+    name: 'Konstantinos Chafis',
+    'name.logo': 'konstantinos.chafis',
     'nav.home': 'Home',
     'nav.projects': 'Projects',
     'nav.blog': 'Blog',
@@ -76,8 +76,8 @@ export const ui = {
     'notfound.home': 'Back to home',
   },
   el: {
-    name: 'Κωνσταντίνος Χαφής',
-    'name.logo': 'κωνσταντίνος.χαφής',
+    name: 'Κωνσταντίνος Χάφης',
+    'name.logo': 'κωνσταντίνος.χάφης',
     'nav.home': 'Αρχική',
     'nav.projects': 'Έργα',
     'nav.blog': 'Blog',

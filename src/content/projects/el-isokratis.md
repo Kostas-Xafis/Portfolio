@@ -12,7 +12,7 @@ featured: true
 relatedPosts: [isokratis-web-audio-drone]
 links:
   repo: https://github.com/Kostas-Xafis/Isokratis
-  live: https://isokratis.com
+  live: https://isokratis.byzantineapps.com
 ---
 
 ## Επισκόπηση
@@ -39,4 +39,4 @@ links:
 
 ## Αποτέλεσμα
 
-Live στο isokratis.com, με το premium flow, δοκιμές και συγχρονισμό συσκευών σε παραγωγή.
+Ο ιστότοπος βρίσκεται στο isokratis.byzantineapps.com και η εφαρμογή Android, με το premium flow, τις δοκιμές και τον συγχρονισμό συσκευών, είναι σε εσωτερικές δοκιμές στο Google Play.

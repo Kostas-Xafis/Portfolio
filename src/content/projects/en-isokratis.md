@@ -12,7 +12,7 @@ featured: true
 relatedPosts: [isokratis-web-audio-drone]
 links:
   repo: https://github.com/Kostas-Xafis/Isokratis
-  live: https://isokratis.com
+  live: https://isokratis.byzantineapps.com
 ---
 
 ## Overview
@@ -40,4 +40,4 @@ The API is a custom typed framework: each route is declared in a paired `client`
 
 ## Outcome
 
-Live at isokratis.com, with the premium flow, trials and cross-device sync in production.
+The site is at isokratis.byzantineapps.com, and the Android app, with its premium flow, trials and cross-device sync, is in internal testing on Google Play.

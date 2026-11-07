@@ -45,4 +45,4 @@ Settings and presets live in IndexedDB per user (`user:123:settings`), which mak
 
 The Web Audio API is surprisingly complete for this use case — the only thing you cannot do is ignore the audio thread's state machine. Every gain ramp, every voice start, has to be scheduled or it clicks. That discipline carries over: the same care shows up in the API layer, where session validation is cached in Cloudflare KV with a TTL, so a chanter's first note of the day is not slowed down by a database round-trip.
 
-If you sing Byzantine chant, [give it a try](https://isokratis.com). If you write audio code, the moria arithmetic is the part I would steal.
+If you sing Byzantine chant, [give it a try](https://isokratis.byzantineapps.com). If you write audio code, the moria arithmetic is the part I would steal.

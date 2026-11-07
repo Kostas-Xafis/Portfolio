@@ -1,6 +1,6 @@
 ## Project
 
-Personal portfolio + blog (Konstantinos Xafis). Astro 7, static output, Cloudflare Pages.
+Personal portfolio + blog (Konstantinos Chafis). Astro 7, static output, Cloudflare Pages.
 
 - Live: https://kostas-portfolio.pages.dev (Pages project: `kostas-portfolio`)
 - Locales: `en` (default, prefixed) and `el`, configured via `i18n` in `astro.config.mjs`

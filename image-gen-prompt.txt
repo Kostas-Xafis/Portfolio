@@ -1,6 +1,6 @@
 =====================================================================
   COVER IMAGE GENERATION PROMPTS
-  Konstantinos Xafis portfolio — kostas-portfolio.pages.dev
+  Konstantinos Chafis portfolio — kostas-portfolio.pages.dev
 =====================================================================
 
 HOW TO USE

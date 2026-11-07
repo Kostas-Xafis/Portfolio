@@ -1,4 +1,4 @@
-# Konstantinos Xafis — Portfolio
+# Konstantinos Chafis — Portfolio
 
 Personal portfolio and blog. Static Astro site, deployed on Cloudflare Pages.
 
