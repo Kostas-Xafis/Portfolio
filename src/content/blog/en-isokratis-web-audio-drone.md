@@ -12,7 +12,7 @@ relatedProjects: [isokratis]
 
 > **Update, November 2026:** this post was written about the original PWA, and it stays as the record of that work. The PWA has since been retired. Isokratis is now an Expo / React Native app, not released yet, with the Android build in internal testing on Google Play. The music model and the engine's classes came across and now run on `react-native-audio-api`, which follows the Web Audio spec. Storage and session handling changed; the last two sections say how.
 
-Isokratis is a practice app for Byzantine chanters. A chanter needs a stable drone — the isokratima — to sing against, and the app synthesizes that drone in real time while the singer chooses the scale and the starting note. The interesting engineering lives in two places: the music model and the audio graph.
+Isokratis is a fully fledged tool for any Byzantine chanter. A chanter needs a stable drone — the isokratima — to sing against, and the app synthesizes that drone in real time while the singer chooses the scale and the starting note. The interesting engineering lives in two places: the music model and the audio graph.
 
 ## Music theory, encoded
 
@@ -48,6 +48,6 @@ The native app keeps them per user in SQLite. D1 still holds accounts, sessions 
 
 ## What the engine taught me
 
-The Web Audio API is surprisingly complete for this use case — the only thing you cannot do is ignore the audio thread's state machine. Every gain ramp, every voice start, has to be scheduled or it clicks. That discipline carried over: the same care showed up in the PWA's API layer, where session validation was cached in Cloudflare KV with a TTL, so a chanter's first note of the day was not slowed down by a database round-trip. The current Worker has dropped that cache and checks sessions in D1.
+The Web Audio API is surprisingly complete for this use case — the only thing you cannot do is ignore the audio thread's state machine. Every gain ramp, every voice start, has to be scheduled or it clicks. That discipline carried over: the same care showed up in the PWA's API layer, where session validation was cached in Cloudflare KV with a TTL. The current Worker has dropped that cache and checks sessions in D1.
 
 If you sing Byzantine chant, [the app's site](https://isokratis.byzantineapps.com) is where to find it once it's out of testing. If you write audio code, the moria arithmetic is the part I would steal.
