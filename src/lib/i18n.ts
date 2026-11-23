@@ -76,7 +76,7 @@ export const ui = {
     'notfound.home': 'Back to home',
   },
   el: {
-    name: 'Κωνσταντίνος Χάφης',
+    name: 'Κωνσταντίνος Χαφής',
     'name.logo': 'κωνσταντίνος.χάφης',
     'nav.home': 'Αρχική',
     'nav.projects': 'Έργα',

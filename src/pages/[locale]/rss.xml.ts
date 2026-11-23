@@ -15,7 +15,7 @@ export const GET: APIRoute = async (context) => {
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
   return rss({
-    title: locale === 'en' ? 'Konstantinos Chafis — Blog' : 'Κωνσταντίνος Χάφης — Blog',
+    title: locale === 'en' ? 'Konstantinos Chafis — Blog' : 'Κωνσταντίνος Χαφής — Blog',
     description:
       locale === 'en'
         ? 'Technical write-ups on software engineering, Cloudflare, machine learning, compilers and systems.'

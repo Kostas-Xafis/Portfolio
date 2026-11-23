@@ -155,7 +155,7 @@ async function main() {
 
   const pages = [
     { path: 'en/index.png', title: 'Konstantinos Chafis', description: 'Software engineer — full-stack TypeScript on the Cloudflare edge, machine learning, compilers and systems software.', tag: 'EN' },
-    { path: 'el/index.png', title: 'Κωνσταντίνος Χάφης', description: 'Μηχανικός λογισμικού — full-stack TypeScript στο Cloudflare edge, μηχανική μάθηση, compilers και λογισμικό συστημάτων.', tag: 'ΕΛ' },
+    { path: 'el/index.png', title: 'Κωνσταντίνος Χαφής', description: 'Μηχανικός λογισμικού — full-stack TypeScript στο Cloudflare edge, μηχανική μάθηση, compilers και λογισμικό συστημάτων.', tag: 'ΕΛ' },
     { path: 'en/projects.png', title: 'Projects', description: 'Selected work across full-stack web, machine learning, compilers, systems and tooling.', tag: 'EN' },
     { path: 'el/projects.png', title: 'Έργα', description: 'Επιλεγμένη δουλειά σε full-stack web, μηχανική μάθηση, compilers, συστήματα και εργαλεία.', tag: 'ΕΛ' },
     { path: 'en/blog.png', title: 'Blog', description: 'Technical write-ups on the projects I build.', tag: 'EN' },
